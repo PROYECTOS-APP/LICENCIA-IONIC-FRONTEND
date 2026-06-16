@@ -1,0 +1,274 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.register-container {
+  min-height: 100%;
+  padding: 20px 16px 40px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.welcome-animation {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logo-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-glow {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.3), transparent);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.title {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  margin: 0;
+}
+
+.form-card {
+  background: rgba(26, 31, 61, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.form-header ion-icon {
+  color: #FF6B00;
+  font-size: 20px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #FF6B00;
+  z-index: 2;
+}
+
+.custom-input {
+  --background: #1A1F3D;
+  --border-radius: 12px;
+  --color: white;
+  --padding-start: 44px;
+  --highlight-color-focused: #FF6B00;
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.password-strength {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.strength-bar.weak { background: #ef4444; }
+.strength-bar.medium { background: #f59e0b; }
+.strength-bar.strong { background: #10b981; }
+
+.strength-text {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 40px;
+}
+
+.password-match {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 11px;
+}
+
+.password-match .match {
+  color: #10b981;
+}
+
+.password-match .no-match {
+  color: #ef4444;
+}
+
+.terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.terms-checkbox {
+  --size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.terms-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.terms-link {
+  color: #FF6B00;
+  cursor: pointer;
+}
+
+.register-button {
+  --background: linear-gradient(135deg, #FF6B00, #E05F00);
+  --border-radius: 12px;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.separator .line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.separator span {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.login-link {
+  text-align: center;
+}
+
+.login-link .login-button {
+  --color: #FF6B00;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f87171;
+  font-size: 12px;
+  word-break: break-word;
+}
+
+// Responsive
+@media (min-width: 768px) {
+  .register-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .form-card {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 16px 12px 32px;
+  }
+  
+  .form-card {
+    padding: 16px;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .terms {
+    align-items: flex-start;
+  }
+}

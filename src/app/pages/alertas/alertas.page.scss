@@ -1,0 +1,418 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.alertas-container {
+  padding: 12px;
+  padding-bottom: 80px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+// Header estadístico
+.stats-header {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.15), rgba(224, 95, 0, 0.05));
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  min-width: 60px;
+}
+
+.stat-item ion-icon {
+  font-size: 20px;
+  color: #FF6B00;
+  margin-bottom: 2px;
+}
+
+.stat-number {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-divider {
+  width: 1px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+// Formulario
+.form-card {
+  background: rgba(26, 31, 61, 0.95);
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+.form-card h3 {
+  color: white;
+  font-size: 16px;
+  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  font-size: 20px;
+  color: #FF6B00;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #FF6B00;
+  z-index: 2;
+}
+
+.textarea-icon {
+  top: 18px;
+  transform: none;
+}
+
+.custom-input,
+.custom-select,
+.custom-datetime {
+  --background: #1A1F3D;
+  --border-radius: 12px;
+  --color: white;
+  --padding-start: 44px;
+  --highlight-color-focused: #FF6B00;
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+}
+
+.custom-select {
+  --padding-start: 44px;
+  min-height: 48px;
+}
+
+.custom-textarea {
+  --background: #1A1F3D;
+  --border-radius: 12px;
+  --color: white;
+  --padding-start: 44px;
+  width: 100%;
+}
+
+.select-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.generate-button {
+  --background: linear-gradient(135deg, #FF6B00, #E05F00);
+  --border-radius: 12px;
+  margin-top: 8px;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+}
+
+// Lista de alertas
+.alertas-list {
+  margin-top: 8px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.list-header h3 {
+  color: white;
+  font-size: 15px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clear-all-btn {
+  --color: #FF6B00;
+  font-size: 11px;
+}
+
+.alerta-card {
+  background: rgba(26, 31, 61, 0.95);
+  border-radius: 16px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.alerta-card:active {
+  transform: scale(0.98);
+}
+
+// Prioridades
+.alerta-card.priority-urgente {
+  border-left: 4px solid #ef4444;
+}
+.alerta-card.priority-alta {
+  border-left: 4px solid #f59e0b;
+}
+.alerta-card.priority-media {
+  border-left: 4px solid #3b82f6;
+}
+.alerta-card.priority-baja {
+  border-left: 4px solid #10b981;
+}
+
+.alerta-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  flex-wrap: wrap;
+}
+
+.alerta-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alerta-icon ion-icon {
+  font-size: 20px;
+  color: white;
+}
+
+.alerta-info {
+  flex: 1;
+  min-width: 120px;
+}
+
+.alerta-titulo {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.prioridad-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 9px;
+}
+
+.prioridad-badge ion-icon {
+  font-size: 10px;
+  margin: 0;
+}
+
+.alerta-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tipo-alerta,
+.fecha-alerta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tipo-alerta ion-icon,
+.fecha-alerta ion-icon {
+  font-size: 11px;
+}
+
+.delete-btn {
+  --color: #ef4444;
+  margin: 0;
+  height: 32px;
+  width: 32px;
+}
+
+.alerta-content {
+  padding: 14px;
+  padding-top: 0;
+}
+
+.alerta-content p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.alerta-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.alerta-footer ion-icon {
+  font-size: 12px;
+  color: #FF6B00;
+}
+
+.dias-restantes {
+  margin-left: auto;
+  font-size: 9px;
+  padding: 3px 8px;
+}
+
+// Empty state
+.empty-alertas {
+  text-align: center;
+  padding: 40px 16px;
+}
+
+.empty-icon-container {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  background: rgba(255, 107, 0, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon {
+  font-size: 40px;
+  color: #FF6B00;
+}
+
+.empty-alertas h3 {
+  color: white;
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.empty-alertas p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  max-width: 280px;
+  margin: 0 auto 16px;
+}
+
+.empty-button {
+  --background: linear-gradient(135deg, #FF6B00, #E05F00);
+  --border-radius: 12px;
+  font-size: 13px;
+}
+
+// Responsive
+@media (min-width: 768px) {
+  .alertas-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .alertas-container {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 480px) {
+  .alertas-container {
+    padding: 8px;
+  }
+  
+  .form-card {
+    padding: 12px;
+  }
+  
+  .alerta-header {
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  
+  .delete-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
+  
+  .alerta-info {
+    padding-right: 36px;
+  }
+  
+  .stats-header {
+    padding: 10px;
+  }
+  
+  .stat-number {
+    font-size: 16px;
+  }
+}
+
+// Animaciones
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alerta-card {
+  animation: slideIn 0.3s ease-out;
+}

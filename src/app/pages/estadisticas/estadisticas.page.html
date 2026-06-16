@@ -1,0 +1,153 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Estadísticas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="refreshData()" [disabled]="isLoading">
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-bg">
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="stats-container">
+    <!-- Header -->
+    <div class="stats-header">
+      <div class="header-icon-container">
+        <ion-icon name="bar-chart-outline" class="header-icon"></ion-icon>
+      </div>
+      <h1>Panel de Estadísticas</h1>
+      <p>Resumen general de tu negocio</p>
+    </div>
+
+    <!-- Tarjeta de resumen principal -->
+    <div class="summary-card">
+      <div class="summary-item">
+        <span class="summary-label">Total Ingresos</span>
+        <span class="summary-value">{{ formatCurrency(stats.totalIngresos) }}</span>
+        <span class="summary-trend positive">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          +12%
+        </span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="summary-label">Licencias Totales</span>
+        <span class="summary-value">{{ stats.totalLicencias }}</span>
+        <span class="summary-trend">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          +{{ stats.nuevosClientes }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Grid de estadísticas -->
+    <div class="stats-grid">
+      <div class="stat-card" (click)="verDetalles('activas')">
+        <div class="stat-icon success">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.activas }}</h3>
+          <p>Licencias Activas</p>
+          <div class="stat-progress">
+            <div class="progress-bar" [style.width.%]="getPorcentaje(stats.activas, stats.totalLicencias)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" (click)="verDetalles('vencidas')">
+        <div class="stat-icon danger">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.vencidas }}</h3>
+          <p>Licencias Vencidas</p>
+          <div class="stat-progress">
+            <div class="progress-bar" [style.width.%]="getPorcentaje(stats.vencidas, stats.totalLicencias)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" (click)="verDetalles('porVencer')">
+        <div class="stat-icon warning">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.porVencer }}</h3>
+          <p>Por Vencer (30 días)</p>
+          <div class="stat-progress">
+            <div class="progress-bar" [style.width.%]="getPorcentaje(stats.porVencer, stats.totalLicencias)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card" (click)="verDetalles('clientes')">
+        <div class="stat-icon info">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ stats.clientesActivos }}</h3>
+          <p>Clientes Activos</p>
+          <div class="stat-progress">
+            <div class="progress-bar" [style.width.%]="getPorcentaje(stats.clientesActivos, 100)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de ingresos -->
+    <div class="ingresos-section">
+      <h3>
+        <ion-icon name="cash-outline"></ion-icon>
+        Resumen de Ingresos
+      </h3>
+      <div class="ingresos-grid">
+        <div class="ingreso-card">
+          <div class="ingreso-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <div class="ingreso-info">
+            <span class="ingreso-label">Este Mes</span>
+            <span class="ingreso-value">{{ formatCurrency(stats.ingresosMensuales) }}</span>
+          </div>
+        </div>
+        <div class="ingreso-card">
+          <div class="ingreso-icon">
+            <ion-icon name="trending-up-outline"></ion-icon>
+          </div>
+          <div class="ingreso-info">
+            <span class="ingreso-label">Este Año</span>
+            <span class="ingreso-value">{{ formatCurrency(stats.ingresosAnuales) }}</span>
+          </div>
+        </div>
+        <div class="ingreso-card">
+          <div class="ingreso-icon">
+            <ion-icon name="stats-chart-outline"></ion-icon>
+          </div>
+          <div class="ingreso-info">
+            <span class="ingreso-label">Promedio Mensual</span>
+            <span class="ingreso-value">{{ formatCurrency(stats.ingresosMensuales > 0 ? stats.ingresosAnuales / 12 : 0) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje informativo -->
+    <div class="info-message">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <span>Datos calculados a partir de tus licencias registradas</span>
+    </div>
+  </div>
+</ion-content>

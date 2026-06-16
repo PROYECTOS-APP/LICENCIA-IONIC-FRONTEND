@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="Volver" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-bg">
+  <div class="register-container">
+    <div class="welcome-animation">
+      <div class="logo-wrapper">
+        <img src="assets/icon/logo.png" alt="Logo" class="logo">
+        <div class="logo-glow"></div>
+      </div>
+      <h1 class="title">¡Bienvenido!</h1>
+      <p class="subtitle">Crea tu cuenta y comienza a gestionar licencias</p>
+    </div>
+
+    <div class="form-card">
+      <div class="form-header">
+        <ion-icon name="person-add-outline"></ion-icon>
+        <span>Información personal</span>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="person-outline" class="input-icon"></ion-icon>
+        <ion-input
+          [(ngModel)]="nombre"
+          type="text"
+          placeholder="Juan Pérez"
+          label="Nombre completo"
+          labelPlacement="floating"
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+        <ion-input
+          [(ngModel)]="email"
+          type="email"
+          placeholder="correo@ejemplo.com"
+          label="Correo electrónico"
+          labelPlacement="floating"
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+        <ion-input
+          [(ngModel)]="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Mínimo 6 caracteres"
+          label="Contraseña"
+          labelPlacement="floating"
+          class="custom-input"
+        ></ion-input>
+        <ion-icon 
+          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" 
+          class="password-toggle"
+          (click)="togglePassword()"
+        ></ion-icon>
+        <div class="password-strength" *ngIf="password">
+          <div class="strength-bar" [class.weak]="passwordStrength === 'weak'" [class.medium]="passwordStrength === 'medium'" [class.strong]="passwordStrength === 'strong'"></div>
+          <span class="strength-text">{{ strengthText }}</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+        <ion-input
+          [(ngModel)]="confirmPassword"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Repite tu contraseña"
+          label="Confirmar contraseña"
+          labelPlacement="floating"
+          class="custom-input"
+        ></ion-input>
+        <div class="password-match" *ngIf="confirmPassword">
+          <ion-icon [name]="passwordsMatch ? 'checkmark-circle-outline' : 'close-circle-outline'" [class.match]="passwordsMatch" [class.no-match]="!passwordsMatch"></ion-icon>
+          <span>{{ passwordsMatch ? 'Las contraseñas coinciden' : 'Las contraseñas no coinciden' }}</span>
+        </div>
+      </div>
+
+      <div class="terms">
+        <ion-checkbox [(ngModel)]="acceptTerms" class="terms-checkbox"></ion-checkbox>
+        <span class="terms-text">Acepto los <span class="terms-link">Términos y Condiciones</span> y la <span class="terms-link">Política de Privacidad</span></span>
+      </div>
+
+      <ion-button 
+        expand="block" 
+        (click)="onRegister()" 
+        [disabled]="isLoading || !acceptTerms"
+        class="register-button"
+      >
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">
+          <ion-icon name="person-add-outline" slot="start"></ion-icon>
+          CREAR CUENTA
+        </span>
+      </ion-button>
+
+      <div class="separator">
+        <div class="line"></div>
+        <span>¿Ya tienes cuenta?</span>
+        <div class="line"></div>
+      </div>
+
+      <div class="login-link">
+        <ion-button fill="clear" (click)="goToLogin()" class="login-button">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Iniciar sesión
+        </ion-button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+  </div>
+</ion-content>

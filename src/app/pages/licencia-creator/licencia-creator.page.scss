@@ -1,0 +1,356 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.creator-container {
+  padding: 12px;
+  padding-bottom: 80px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+// Currency Card
+.currency-card {
+  background: rgba(26, 31, 61, 0.95);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+.currency-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.currency-header ion-icon {
+  color: #FF6B00;
+  font-size: 18px;
+}
+
+.currency-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.currency-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.currency-btn.active {
+  border-color: #FF6B00;
+  background: rgba(255, 107, 0, 0.15);
+}
+
+.currency-btn ion-icon {
+  font-size: 24px;
+  color: #FF6B00;
+}
+
+.currency-btn span {
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.currency-btn small {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+}
+
+// Form Card
+.form-card {
+  background: rgba(26, 31, 61, 0.95);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+}
+
+.form-card h3 {
+  color: white;
+  font-size: 15px;
+  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Productos Grid
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.producto-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.producto-card.selected {
+  border-color: #FF6B00;
+  background: rgba(255, 107, 0, 0.15);
+}
+
+.producto-card h4 {
+  color: white;
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.producto-card p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  margin: 0 0 8px 0;
+}
+
+.producto-card .precio {
+  color: #FF6B00;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+// Inputs
+.input-group {
+  position: relative;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #FF6B00;
+  z-index: 2;
+}
+
+.custom-input,
+.custom-select,
+.custom-datetime {
+  --background: #1A1F3D;
+  --border-radius: 12px;
+  --color: white;
+  --padding-start: 44px;
+  --highlight-color-focused: #FF6B00;
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+}
+
+.custom-select {
+  --padding-start: 44px;
+  min-height: 48px;
+}
+
+.custom-textarea {
+  --background: #1A1F3D;
+  --border-radius: 12px;
+  --color: white;
+  --padding-start: 44px;
+  width: 100%;
+}
+
+// Cantidad Section
+.cantidad-section {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.cantidad-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.cantidad-header ion-icon {
+  color: #FF6B00;
+}
+
+.cantidad-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cantidad-btn {
+  --background: linear-gradient(135deg, #FF6B00, #E05F00);
+  --border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.cantidad-valor {
+  text-align: center;
+  min-width: 60px;
+}
+
+.cantidad-valor .numero {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+}
+
+.cantidad-valor .texto {
+  display: block;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cantidad-range {
+  margin-top: 10px;
+  padding: 0 4px;
+}
+
+// Precios Resumen
+.precios-resumen {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.precio-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.precio-item:last-child {
+  border-bottom: none;
+}
+
+.precio-item span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+
+.precio-item strong {
+  color: white;
+  font-size: 13px;
+}
+
+.precio-item .descuento {
+  color: #10b981;
+}
+
+.precio-item.total {
+  padding-top: 10px;
+  border-top: 2px solid rgba(255, 107, 0, 0.2);
+}
+
+.precio-item.total span {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.precio-item.total .total-precio {
+  color: #FF6B00;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+// Generate Button
+.generate-button {
+  --background: linear-gradient(135deg, #FF6B00, #E05F00);
+  --border-radius: 12px;
+  height: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  width: 100%;
+  margin-top: 8px;
+}
+
+// Responsive
+@media (min-width: 768px) {
+  .creator-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .productos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .creator-container {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 480px) {
+  .creator-container {
+    padding: 8px;
+  }
+  
+  .form-card {
+    padding: 12px;
+  }
+  
+  .productos-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .currency-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .cantidad-control {
+    gap: 10px;
+  }
+  
+  .cantidad-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .cantidad-valor .numero {
+    font-size: 22px;
+  }
+  
+  .precio-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}

@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Generar Licencia</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-bg">
+  <div class="creator-container">
+    
+    <!-- Selección de Moneda - Al principio -->
+    <div class="currency-card">
+      <div class="currency-header">
+        <ion-icon name="cash-outline"></ion-icon>
+        <span>Moneda de pago</span>
+      </div>
+      <div class="currency-buttons">
+        <div class="currency-btn" [class.active]="moneda === 'USD'" (click)="cambiarMoneda('USD')">
+          <ion-icon name="logo-usd"></ion-icon>
+          <span>Dólar Americano</span>
+          <small>$ USD</small>
+        </div>
+        <div class="currency-btn" [class.active]="moneda === 'PEN'" (click)="cambiarMoneda('PEN')">
+          <ion-icon name="cash-outline"></ion-icon>
+          <span>Sol Peruano</span>
+          <small>S/ PEN</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productos -->
+    <div class="form-card">
+      <h3>📦 1. Selecciona un Producto</h3>
+      <div class="productos-grid">
+        <div *ngFor="let producto of productos" 
+             class="producto-card" 
+             [class.selected]="productoSeleccionado?.id === producto.id"
+             (click)="selectProducto(producto)">
+          <h4>{{ producto.nombre }}</h4>
+          <p>{{ producto.descripcion }}</p>
+          <div class="precio">
+            <span *ngIf="moneda === 'USD'">💰 ${{ producto.precioBaseUsd }} USD</span>
+            <span *ngIf="moneda === 'PEN'">💰 S/ {{ (producto.precioBaseUsd * 3.80).toFixed(2) }} PEN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configuración -->
+    <div class="form-card" *ngIf="productoSeleccionado">
+      <h3>⚙️ 2. Configura la Licencia</h3>
+
+      <!-- Tipo de licencia -->
+      <div class="input-group">
+        <ion-icon name="time-outline" class="input-icon"></ion-icon>
+        <ion-select [(ngModel)]="tipoLicencia" interface="popover" class="custom-select" placeholder="Selecciona el tipo">
+          <ion-select-option *ngFor="let tipo of tiposLicencia" [value]="tipo">{{ tipo }}</ion-select-option>
+        </ion-select>
+      </div>
+
+      <!-- Calendario -->
+      <div class="input-group">
+        <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+        <ion-datetime 
+          [(ngModel)]="fechaVencimiento" 
+          presentation="date" 
+          class="custom-datetime"
+          [min]="fechaMinima"
+          [max]="fechaMaxima">
+          <span slot="title">📅 Selecciona la fecha de vencimiento</span>
+        </ion-datetime>
+      </div>
+
+      <!-- Cantidad de licencias - MEJORADO Y VISIBLE -->
+      <div class="cantidad-section">
+        <div class="cantidad-header">
+          <ion-icon name="copy-outline"></ion-icon>
+          <span>Cantidad de licencias</span>
+        </div>
+        <div class="cantidad-control">
+          <ion-button (click)="disminuirCantidad()" [disabled]="cantidadLicencias <= 1" fill="solid" class="cantidad-btn">
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+          <div class="cantidad-valor">
+            <span class="numero">{{ cantidadLicencias }}</span>
+            <span class="texto">licencias</span>
+          </div>
+          <ion-button (click)="aumentarCantidad()" [disabled]="cantidadLicencias >= 100" fill="solid" class="cantidad-btn">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="cantidad-range">
+          <ion-range [(ngModel)]="cantidadLicencias" min="1" max="100" pin="true" color="primary">
+            <ion-label slot="start">1</ion-label>
+            <ion-label slot="end">100</ion-label>
+          </ion-range>
+        </div>
+      </div>
+
+      <!-- Resumen de precios en tiempo real -->
+      <div class="precios-resumen">
+        <div class="precio-item">
+          <span>Precio unitario:</span>
+          <strong>{{ precioUnitarioFormateado }}</strong>
+        </div>
+        <div class="precio-item">
+          <span>Descuento ({{ descuentoPorcentaje }}%):</span>
+          <strong class="descuento">-{{ descuentoFormateado }}</strong>
+        </div>
+        <div class="precio-item total">
+          <span>Total a pagar:</span>
+          <strong class="total-precio">{{ precioFormateado }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos del Cliente -->
+    <div class="form-card" *ngIf="productoSeleccionado">
+      <h3>👤 3. Datos del Cliente</h3>
+
+      <div class="input-group">
+        <ion-icon name="person-outline" class="input-icon"></ion-icon>
+        <ion-input [(ngModel)]="cliente" placeholder="Nombre del Cliente *" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="business-outline" class="input-icon"></ion-icon>
+        <ion-input [(ngModel)]="empresa" placeholder="Empresa (opcional)" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+        <ion-input [(ngModel)]="correo" type="email" placeholder="Correo Electrónico *" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="document-text-outline" class="input-icon"></ion-icon>
+        <ion-textarea [(ngModel)]="notas" placeholder="Notas adicionales" rows="3" class="custom-textarea"></ion-textarea>
+      </div>
+    </div>
+
+    <!-- Botón Generar -->
+    <ion-button expand="block" (click)="generarLicencia()" [disabled]="isLoading || !productoSeleccionado" class="generate-button">
+      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+      <span *ngIf="!isLoading">🎫 GENERAR LICENCIA</span>
+    </ion-button>
+  </div>
+</ion-content>

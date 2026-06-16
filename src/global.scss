@@ -1,37 +1,171 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+// Global styles
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-/* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+ion-content {
+  --background: linear-gradient(135deg, #0A0E27 0%, #1A1F3D 50%, #0F1329 100%);
+}
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+// Estilos de scrollbar
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+::-webkit-scrollbar-thumb {
+  background: #FF6B00;
+  border-radius: 4px;
+}
+
+// Estilos de texto
+.text-primary {
+  color: #FF6B00 !important;
+}
+
+.text-white {
+  color: #ffffff !important;
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+// Utilidades de espaciado
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 12px; }
+.p-4 { padding: 16px; }
+.p-5 { padding: 24px; }
+
+.m-1 { margin: 4px; }
+.m-2 { margin: 8px; }
+.m-3 { margin: 12px; }
+.m-4 { margin: 16px; }
+.m-5 { margin: 24px; }
+
+// Flex utilities
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+
+// Estilos de badges
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.badge-primary {
+  background: #FF6B00;
+  color: #ffffff;
+}
+
+.badge-success {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.badge-warning {
+  background: #f59e0b;
+  color: #000000;
+}
+
+.badge-danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.badge-info {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+// Toast personalizados
+ion-toast {
+  --background: rgba(26, 31, 61, 0.95);
+  --border-radius: 16px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --border: 1px solid rgba(255, 107, 0, 0.2);
+  --color: #ffffff;
+}
+
+ion-toast.success {
+  --background: #10b981;
+  --border: none;
+}
+
+ion-toast.error {
+  --background: #ef4444;
+  --border: none;
+}
+
+ion-toast.warning {
+  --background: #f59e0b;
+  --border: none;
+}
+
+// Responsive global
+@media (max-width: 480px) {
+  ion-content {
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+}
+
+@media (min-width: 768px) {
+  ion-content {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+}
+
+// Asegurar que los textos no se desborden
+ion-label, ion-text, p, h1, h2, h3, h4, h5, h6 {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+// Asegurar que las imágenes no se desborden
+img {
+  max-width: 100%;
+  height: auto;
+}

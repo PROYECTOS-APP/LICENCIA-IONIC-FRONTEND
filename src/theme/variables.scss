@@ -1,2 +1,138 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+// Ionic Variables and Theming
+:root {
+  --ion-color-primary: #FF6B00;
+  --ion-color-primary-rgb: 255, 107, 0;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #E05F00;
+  --ion-color-primary-tint: #FF7A1A;
+
+  --ion-color-secondary: #0A0E27;
+  --ion-color-secondary-rgb: 10, 14, 39;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #090C22;
+  --ion-color-secondary-tint: #232742;
+
+  --ion-color-tertiary: #1A1F3D;
+  --ion-color-tertiary-rgb: 26, 31, 61;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #171B36;
+  --ion-color-tertiary-tint: #313550;
+
+  --ion-color-success: #10b981;
+  --ion-color-success-rgb: 16, 185, 129;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #0E9F6E;
+  --ion-color-success-tint: #28C08E;
+
+  --ion-color-warning: #f59e0b;
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #D88B0A;
+  --ion-color-warning-tint: #F6A823;
+
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #D23C3C;
+  --ion-color-danger-tint: #F15757;
+
+  --ion-color-medium: #6b7280;
+  --ion-color-medium-rgb: 107, 114, 128;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #5E6470;
+  --ion-color-medium-tint: #7A7E8A;
+
+  --ion-color-light: #f3f4f6;
+  --ion-color-light-rgb: 243, 244, 246;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #D6D7D9;
+  --ion-color-light-tint: #F4F5F7;
+}
+
+// Gradientes personalizados
+.primary-gradient {
+  background: linear-gradient(135deg, #FF6B00, #E05F00);
+}
+
+.secondary-gradient {
+  background: linear-gradient(135deg, #0A0E27, #1A1F3D);
+}
+
+.success-gradient {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.warning-gradient {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.danger-gradient {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.info-gradient {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+// Estilos globales de fondo
+.gradient-bg {
+  --background: linear-gradient(135deg, #0A0E27 0%, #1A1F3D 50%, #0F1329 100%);
+  min-height: 100vh;
+}
+
+// Estilos de tarjetas
+.glass-card {
+  background: rgba(26, 31, 61, 0.95);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animated {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Responsive global
+@media (max-width: 480px) {
+  .glass-card {
+    border-radius: 16px;
+    padding: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .glass-card {
+    padding: 24px;
+  }
+}

@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Licencia Generada</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-bg">
+  <div *ngIf="licenciaData" class="resultado-container">
+    <!-- Contenido para exportar a PDF -->
+    <div id="licencia-content" class="licencia-content">
+      <div class="success-card">
+        <ion-icon name="checkmark-circle-outline" class="success-icon"></ion-icon>
+        <h2>¡LICENCIA GENERADA!</h2>
+        <div class="codigo-container">
+          <strong>{{ licenciaData.codigoLicencia }}</strong>
+          <ion-button fill="clear" size="small" (click)="copyCode()">
+            <ion-icon name="copy-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <p class="codigo-note">Código único de licencia</p>
+      </div>
+
+      <div class="details-card">
+        <div class="details-header">
+          <ion-icon name="document-text-outline"></ion-icon>
+          <h3>Detalles de la Licencia</h3>
+        </div>
+
+        <ion-list>
+          <ion-item>
+            <ion-icon name="cube-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>Producto</h3>
+              <p>{{ licenciaData.producto }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>Tipo</h3>
+              <p>{{ licenciaData.tipo }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>Vencimiento</h3>
+              <p>{{ formatDate(licenciaData.fechaVencimiento) }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="copy-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>Cantidad de Licencias</h3>
+              <p>{{ licenciaData.cantidadLicencias }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="cash-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>Precio Total</h3>
+              <p class="price">
+                {{ licenciaData.moneda === 'USD' ? '$' + licenciaData.precioTotalUSD + ' USD' : 'S/ ' + licenciaData.precioTotalPEN + ' PEN' }}
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <div class="cliente-section">
+          <h3>Datos del Cliente</h3>
+          <ion-item lines="none">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-label>{{ licenciaData.cliente }}</ion-label>
+          </ion-item>
+          <ion-item lines="none" *ngIf="licenciaData.empresa">
+            <ion-icon name="business-outline" slot="start"></ion-icon>
+            <ion-label>{{ licenciaData.empresa }}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-label>{{ licenciaData.correo }}</ion-label>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+      <ion-button fill="outline" (click)="copyAll()" class="copy-button">
+        <ion-icon name="copy-outline" slot="start"></ion-icon>
+        COPIAR TODO
+      </ion-button>
+
+      <ion-button fill="outline" (click)="exportToPDF()" [disabled]="isExporting" class="pdf-button">
+        <ion-spinner *ngIf="isExporting" name="crescent"></ion-spinner>
+        <span *ngIf="!isExporting">
+          <ion-icon name="document-outline" slot="start"></ion-icon>
+          EXPORTAR PDF
+        </span>
+      </ion-button>
+
+      <!-- Sección de redes sociales con TEXTO -->
+      <div class="share-section">
+        <h4>📱 Compartir licencia</h4>
+        <div class="share-buttons">
+          <ion-button (click)="shareWhatsApp()" class="whatsapp-btn" expand="block">
+            <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+            WhatsApp
+          </ion-button>
+          
+          <ion-button (click)="shareFacebook()" class="facebook-btn" expand="block">
+            <ion-icon name="logo-facebook" slot="start"></ion-icon>
+            Facebook
+          </ion-button>
+          
+          <ion-button (click)="shareTwitter()" class="twitter-btn" expand="block">
+            <ion-icon name="logo-twitter" slot="start"></ion-icon>
+            Twitter
+          </ion-button>
+          
+          <ion-button (click)="shareTikTok()" class="tiktok-btn" expand="block">
+            <ion-icon name="logo-tiktok" slot="start"></ion-icon>
+            TikTok
+          </ion-button>
+          
+          <ion-button (click)="shareNative()" class="more-btn" expand="block">
+            <ion-icon name="share-social-outline" slot="start"></ion-icon>
+            Más opciones
+          </ion-button>
+        </div>
+      </div>
+
+      <ion-button (click)="nuevaLicencia()" class="new-button">
+        <ion-icon name="add-outline" slot="start"></ion-icon>
+        CREAR NUEVA LICENCIA
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

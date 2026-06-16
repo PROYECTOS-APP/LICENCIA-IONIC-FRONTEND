@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Clientes y Licencias</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-bg">
+  <!-- Header estadístico -->
+  <div class="stats-header" *ngIf="!isLoading && licencias.length > 0">
+    <div class="stat-total">
+      <span class="stat-number">{{ licencias.length }}</span>
+      <span class="stat-label">Licencias totales</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-total">
+      <span class="stat-number">{{ clientesUnicos }}</span>
+      <span class="stat-label">Clientes únicos</span>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading && licencias.length === 0" class="empty-container">
+    <ion-icon name="people-outline" class="empty-icon"></ion-icon>
+    <h3>No hay licencias generadas</h3>
+    <p>Comienza creando tu primera licencia</p>
+    <ion-button (click)="goToCrearLicencia()" class="empty-button">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Crear Licencia
+    </ion-button>
+  </div>
+
+  <div *ngIf="!isLoading && licencias.length > 0" class="licencias-container">
+    <ion-card *ngFor="let licencia of licencias" class="licencia-card">
+      <!-- Header con código -->
+      <div class="card-header">
+        <div class="codigo-info">
+          <ion-icon name="key-outline"></ion-icon>
+          <strong>{{ licencia.codigoLicencia }}</strong>
+        </div>
+        <div class="actions">
+          <ion-button fill="clear" size="small" (click)="copyCode(licencia.codigoLicencia)" class="action-btn">
+            <ion-icon name="copy-outline"></ion-icon>
+            <span>Copiar</span>
+          </ion-button>
+          <ion-button fill="clear" size="small" (click)="shareLicencia(licencia)" class="action-btn">
+            <ion-icon name="share-outline"></ion-icon>
+            <span>Compartir</span>
+          </ion-button>
+        </div>
+      </div>
+
+      <ion-card-content>
+        <!-- Badges -->
+        <div class="badges">
+          <ion-badge color="primary" class="producto-badge">
+            <ion-icon name="cube-outline"></ion-icon>
+            {{ licencia.producto }}
+          </ion-badge>
+          <ion-badge color="secondary" class="tipo-badge">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ licencia.tipo }}
+          </ion-badge>
+        </div>
+
+        <!-- Información de la licencia -->
+        <div class="info-grid">
+          <div class="info-item">
+            <ion-icon name="calendar-outline" class="info-icon"></ion-icon>
+            <div class="info-text">
+              <span class="info-label">Vencimiento</span>
+              <span class="info-value">{{ formatDate(licencia.fechaVencimiento) }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <ion-icon name="copy-outline" class="info-icon"></ion-icon>
+            <div class="info-text">
+              <span class="info-label">Cantidad</span>
+              <span class="info-value">{{ licencia.cantidadLicencias || licencia.cantidadUsuarios || 1 }} licencia(s)</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <ion-icon name="cash-outline" class="info-icon"></ion-icon>
+            <div class="info-text">
+              <span class="info-label">Total</span>
+              <span class="info-value highlight">{{ formatPrecio(licencia) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Datos del Cliente -->
+        <div class="cliente-section">
+          <div class="cliente-header">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <h4>Datos del Cliente</h4>
+          </div>
+          <div class="cliente-datos">
+            <div class="cliente-item">
+              <ion-icon name="person-outline"></ion-icon>
+              <span>{{ licencia.cliente }}</span>
+            </div>
+            <div class="cliente-item" *ngIf="licencia.empresa">
+              <ion-icon name="business-outline"></ion-icon>
+              <span>{{ licencia.empresa }}</span>
+            </div>
+            <div class="cliente-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>{{ licencia.correo }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fecha de creación -->
+        <div class="fecha-creacion">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>Creada: {{ formatDate(licencia.fechaCreacion) }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

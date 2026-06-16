@@ -1,17 +1,4 @@
 {
-  "name": "licencia-ionic-frontend",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
-  },
-  "private": true,
   "dependencies": {
     "@angular/animations": "20.3.25",
     "@angular/common": "20.3.25",
@@ -25,9 +12,13 @@
     "@capacitor/core": "8.4.0",
     "@capacitor/haptics": "8.0.2",
     "@capacitor/keyboard": "8.0.5",
+    "@capacitor/share": "^4.0.0",
     "@capacitor/status-bar": "8.0.2",
     "@ionic/angular": "^8.0.0",
+    "@ionic/storage-angular": "^4.0.0",
+    "html2canvas": "^1.4.1",
     "ionicons": "^7.0.0",
+    "jspdf": "^2.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -44,7 +35,9 @@
     "@angular/language-service": "20.3.25",
     "@capacitor/cli": "8.4.0",
     "@ionic/angular-toolkit": "^12.0.0",
+    "@types/html2canvas": "^1.0.0",
     "@types/jasmine": "~5.1.0",
+    "@types/jspdf": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
     "eslint": "^9.16.0",
@@ -59,6 +52,5 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
-  },
-  "description": "An Ionic project"
+  }
 }

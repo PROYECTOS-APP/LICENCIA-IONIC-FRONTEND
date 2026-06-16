@@ -1,0 +1,229 @@
+<!-- ====== HEADER CON MENÚ ====== -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- ====== MENÚ LATERAL ====== -->
+<ion-menu side="start" menuId="first" contentId="main-content" type="overlay">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menú</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div class="menu-profile">
+      <div class="menu-avatar">
+        <img [src]="user?.avatar || 'assets/icon/avatar-default.png'" alt="Avatar">
+      </div>
+      <h3>{{ user?.nombre || 'Usuario' }}</h3>
+      <p>{{ user?.email || '' }}</p>
+    </div>
+    <ion-list lines="none">
+      <ion-item (click)="navigateAndClose('crear-licencia')" detail="false" button>
+        <ion-icon name="create-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Crear Licencia</ion-label>
+      </ion-item>
+      <ion-item (click)="navigateAndClose('clientes')" detail="false" button>
+        <ion-icon name="people-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Clientes</ion-label>
+      </ion-item>
+      <ion-item (click)="navigateAndClose('alertas')" detail="false" button>
+        <ion-icon name="warning-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Alertas</ion-label>
+      </ion-item>
+      <ion-item (click)="navigateAndClose('estadisticas')" detail="false" button>
+        <ion-icon name="bar-chart-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Estadísticas</ion-label>
+      </ion-item>
+      <ion-item (click)="logoutAndClose()" detail="false" button>
+        <ion-icon name="exit-outline" slot="start" color="danger"></ion-icon>
+        <ion-label>Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- ====== CONTENIDO PRINCIPAL ====== -->
+<ion-content id="main-content" class="gradient-bg">
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <!-- Header con saludo y fecha -->
+    <div class="header-section">
+      <div class="header-top">
+        <div class="date-time">
+          <div class="time">{{ currentTime }}</div>
+          <div class="date">{{ currentDate }}</div>
+        </div>
+      </div>
+      
+      <div class="welcome-card">
+        <div class="user-avatar">
+          <img [src]="user?.avatar || 'assets/icon/avatar-default.png'" alt="Avatar">
+        </div>
+        <div class="welcome-text">
+          <h2>{{ getSaludo() }},</h2>
+          <h1>{{ user?.nombre || 'Usuario' }}!</h1>
+          <p>¿Qué deseas hacer hoy?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card" (click)="navigateTo('crear-licencia')">
+          <div class="stat-icon primary-bg">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.licencias }}</h3>
+            <p>Licencias</p>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="stats.porcentajeLicencias"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card" (click)="navigateTo('clientes')">
+          <div class="stat-icon secondary-bg">
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.clientes }}</h3>
+            <p>Clientes</p>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="stats.porcentajeClientes"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card" (click)="navigateTo('alertas')">
+          <div class="stat-icon warning-bg">
+            <ion-icon name="warning-outline"></ion-icon>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.alertas }}</h3>
+            <p>Alertas</p>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="stats.porcentajeAlertas"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card" (click)="navigateTo('estadisticas')">
+          <div class="stat-icon success-bg">
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+          <div class="stat-content">
+            <h3>${{ stats.ingresos }}</h3>
+            <p>Ingresos</p>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="stats.porcentajeIngresos"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones rápidas -->
+    <div class="actions-section">
+      <h3>Acciones Rápidas</h3>
+      <div class="actions-grid">
+        <div class="action-card" (click)="navigateTo('crear-licencia')">
+          <div class="action-icon primary-gradient">
+            <ion-icon name="add-outline"></ion-icon>
+          </div>
+          <h4>Nueva Licencia</h4>
+          <p>Generar licencia</p>
+        </div>
+
+        <div class="action-card" (click)="navigateTo('clientes')">
+          <div class="action-icon secondary-gradient">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </div>
+          <h4>Nuevo Cliente</h4>
+          <p>Registrar cliente</p>
+        </div>
+
+        <div class="action-card" (click)="navigateTo('alertas')">
+          <div class="action-icon warning-gradient">
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+          <h4>Nueva Alerta</h4>
+          <p>Configurar alerta</p>
+        </div>
+
+        <div class="action-card" (click)="navigateTo('estadisticas')">
+          <div class="action-icon info-gradient">
+            <ion-icon name="stats-chart-outline"></ion-icon>
+          </div>
+          <h4>Ver Reportes</h4>
+          <p>Estadísticas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Últimas licencias y alertas -->
+    <div class="info-section">
+      <div class="info-card">
+        <div class="info-header">
+          <ion-icon name="document-text-outline"></ion-icon>
+          <h3>Últimas Licencias</h3>
+          <ion-button fill="clear" size="small" (click)="navigateTo('clientes')">Ver todas</ion-button>
+        </div>
+        <div class="licencias-list">
+          <div *ngFor="let licencia of ultimasLicencias" class="licencia-item">
+            <div class="licencia-icon">
+              <ion-icon name="key-outline"></ion-icon>
+            </div>
+            <div class="licencia-info">
+              <div class="licencia-title">{{ licencia.producto }}</div>
+              <div class="licencia-subtitle">{{ licencia.cliente }} • {{ licencia.codigo }}</div>
+            </div>
+            <div class="licencia-date">{{ licencia.fecha }}</div>
+          </div>
+          <div *ngIf="ultimasLicencias.length === 0" class="empty-list">
+            <p>No hay licencias registradas</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-header">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <h3>Alertas Recientes</h3>
+          <ion-button fill="clear" size="small" (click)="navigateTo('alertas')">Ver todas</ion-button>
+        </div>
+        <div class="alertas-list">
+          <div *ngFor="let alerta of alertasRecientes" class="alerta-item" [class]="alerta.tipo">
+            <div class="alerta-icon">
+              <ion-icon [name]="alerta.icono"></ion-icon>
+            </div>
+            <div class="alerta-info">
+              <div class="alerta-titulo">{{ alerta.titulo }}</div>
+              <div class="alerta-mensaje">{{ alerta.mensaje }}</div>
+              <div class="alerta-prioridad">Prioridad: {{ alerta.prioridad }} • {{ alerta.fecha }}</div>
+            </div>
+          </div>
+          <div *ngIf="alertasRecientes.length === 0" class="empty-list">
+            <p>No hay alertas activas</p>
+            <ion-button fill="clear" size="small" (click)="navigateTo('alertas')">Crear alerta</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

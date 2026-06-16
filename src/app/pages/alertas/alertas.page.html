@@ -1,0 +1,163 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Alertas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-bg">
+  <div class="alertas-container">
+    
+    <!-- Header estadístico -->
+    <div class="stats-header" *ngIf="!isLoading && alertas.length > 0">
+      <div class="stat-item">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span class="stat-number">{{ alertas.length }}</span>
+        <span class="stat-label">Alertas activas</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span class="stat-number">{{ alertasPendientes }}</span>
+        <span class="stat-label">Pendientes</span>
+      </div>
+    </div>
+
+    <!-- Formulario de creación -->
+    <div class="form-card">
+      <h3>
+        <ion-icon name="add-circle-outline" class="title-icon"></ion-icon>
+        Crear Nueva Alerta
+      </h3>
+
+      <div class="input-group">
+        <ion-icon name="alert-circle-outline" class="input-icon"></ion-icon>
+        <ion-select [(ngModel)]="tipoAlerta" interface="popover" class="custom-select" placeholder="Selecciona el tipo">
+          <ion-select-option *ngFor="let tipo of tipos" [value]="tipo">
+            <div class="select-option">
+              <ion-icon [name]="getIcon(tipo) + '-outline'"></ion-icon>
+              <span>{{ tipo }}</span>
+            </div>
+          </ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="flag-outline" class="input-icon"></ion-icon>
+        <ion-select [(ngModel)]="prioridad" interface="popover" class="custom-select" placeholder="Selecciona la prioridad">
+          <ion-select-option *ngFor="let prioridad of prioridades" [value]="prioridad">
+            <div class="select-option">
+              <ion-icon [name]="getPrioridadIcon(prioridad)"></ion-icon>
+              <span>{{ prioridad }}</span>
+            </div>
+          </ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="text-outline" class="input-icon"></ion-icon>
+        <ion-input [(ngModel)]="titulo" placeholder="Ej: Licencia por vencer" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="chatbubble-outline" class="input-icon textarea-icon"></ion-icon>
+        <ion-textarea [(ngModel)]="mensaje" placeholder="Describe el detalle de la alerta..." rows="4" class="custom-textarea"></ion-textarea>
+      </div>
+
+      <div class="input-group">
+        <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+        <ion-datetime 
+          [(ngModel)]="fechaExpiracion" 
+          presentation="date" 
+          class="custom-datetime"
+          [min]="fechaMinima">
+          <span slot="title">Fecha de expiración</span>
+        </ion-datetime>
+      </div>
+
+      <ion-button expand="block" (click)="generarAlerta()" [disabled]="isLoading" class="generate-button">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">
+          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+          CREAR ALERTA
+        </span>
+      </ion-button>
+    </div>
+
+    <!-- Lista de alertas -->
+    <div *ngIf="alertas.length > 0" class="alertas-list">
+      <div class="list-header">
+        <h3>
+          <ion-icon name="list-outline"></ion-icon>
+          Alertas Recientes
+        </h3>
+        <ion-button fill="clear" size="small" (click)="eliminarTodasAlertas()" class="clear-all-btn" *ngIf="alertas.length > 0">
+          <ion-icon name="trash-outline"></ion-icon>
+          Limpiar todas
+        </ion-button>
+      </div>
+      
+      <ion-card *ngFor="let alerta of alertas; let i = index" class="alerta-card" [class]="'priority-' + alerta.prioridad.toLowerCase()">
+        <div class="alerta-header">
+          <div class="alerta-icon" [ngStyle]="{'background': getColorBackground(alerta.tipo)}">
+            <ion-icon [name]="getIcon(alerta.tipo) + '-outline'"></ion-icon>
+          </div>
+          <div class="alerta-info">
+            <div class="alerta-titulo">
+              {{ alerta.titulo }}
+              <ion-badge [color]="getPrioridadColor(alerta.prioridad)" class="prioridad-badge">
+                <ion-icon [name]="getPrioridadIcon(alerta.prioridad)"></ion-icon>
+                {{ alerta.prioridad }}
+              </ion-badge>
+            </div>
+            <div class="alerta-meta">
+              <span class="tipo-alerta">
+                <ion-icon [name]="getIcon(alerta.tipo) + '-outline'"></ion-icon>
+                {{ alerta.tipo }}
+              </span>
+              <span class="fecha-alerta">
+                <ion-icon name="time-outline"></ion-icon>
+                {{ formatDate(alerta.fechaCreacion) }}
+              </span>
+            </div>
+          </div>
+          <ion-button fill="clear" color="danger" (click)="eliminarAlerta(alerta.id)" class="delete-btn">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+        
+        <div class="alerta-content">
+          <p>{{ alerta.mensaje }}</p>
+        </div>
+        
+        <div class="alerta-footer" *ngIf="alerta.fechaExpiracion">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>Expira: {{ formatDateExp(alerta.fechaExpiracion) }}</span>
+          <ion-badge color="warning" class="dias-restantes" *ngIf="diasRestantes(alerta.fechaExpiracion) <= 7">
+            {{ diasRestantes(alerta.fechaExpiracion) }} días restantes
+          </ion-badge>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- Mensaje cuando no hay alertas -->
+    <div *ngIf="!isLoading && alertas.length === 0" class="empty-alertas">
+      <div class="empty-icon-container">
+        <ion-icon name="notifications-off-outline" class="empty-icon"></ion-icon>
+      </div>
+      <h3>No hay alertas activas</h3>
+      <p>Las alertas te ayudarán a mantenerte informado sobre eventos importantes como licencias por vencer, nuevos clientes, etc.</p>
+      <ion-button (click)="scrollToForm()" class="empty-button">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Crear mi primera alerta
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
