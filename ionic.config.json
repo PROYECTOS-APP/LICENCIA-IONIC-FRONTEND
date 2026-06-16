@@ -1,0 +1,7 @@
+{
+  "name": "licencia-ionic-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
