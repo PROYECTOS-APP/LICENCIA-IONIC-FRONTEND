@@ -15,7 +15,7 @@
 <ion-content class="gradient-bg">
   <div class="creator-container">
     
-    <!-- Selección de Moneda - Al principio -->
+    <!-- Selección de Moneda -->
     <div class="currency-card">
       <div class="currency-header">
         <ion-icon name="cash-outline"></ion-icon>
@@ -57,7 +57,6 @@
     <div class="form-card" *ngIf="productoSeleccionado">
       <h3>⚙️ 2. Configura la Licencia</h3>
 
-      <!-- Tipo de licencia -->
       <div class="input-group">
         <ion-icon name="time-outline" class="input-icon"></ion-icon>
         <ion-select [(ngModel)]="tipoLicencia" interface="popover" class="custom-select" placeholder="Selecciona el tipo">
@@ -65,7 +64,6 @@
         </ion-select>
       </div>
 
-      <!-- Calendario -->
       <div class="input-group">
         <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
         <ion-datetime 
@@ -78,7 +76,6 @@
         </ion-datetime>
       </div>
 
-      <!-- Cantidad de licencias - MEJORADO Y VISIBLE -->
       <div class="cantidad-section">
         <div class="cantidad-header">
           <ion-icon name="copy-outline"></ion-icon>
@@ -104,7 +101,6 @@
         </div>
       </div>
 
-      <!-- Resumen de precios en tiempo real -->
       <div class="precios-resumen">
         <div class="precio-item">
           <span>Precio unitario:</span>
@@ -146,10 +142,25 @@
       </div>
     </div>
 
-    <!-- Botón Generar -->
-    <ion-button expand="block" (click)="generarLicencia()" [disabled]="isLoading || !productoSeleccionado" class="generate-button">
-      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-      <span *ngIf="!isLoading">🎫 GENERAR LICENCIA</span>
-    </ion-button>
+    <!-- Botón Generar - MEJORADO Y MÁS VISIBLE -->
+    <div class="button-container">
+      <ion-button 
+        expand="block" 
+        (click)="generarLicencia()" 
+        [disabled]="isLoading || !productoSeleccionado" 
+        class="generate-button"
+        shape="round"
+      >
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">
+          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+          GENERAR LICENCIA
+        </span>
+      </ion-button>
+      <div class="button-info" *ngIf="!productoSeleccionado && !isLoading">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>Selecciona un producto para habilitar</span>
+      </div>
+    </div>
   </div>
 </ion-content>

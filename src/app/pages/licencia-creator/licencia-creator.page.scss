@@ -5,8 +5,8 @@
 }
 
 .creator-container {
-  padding: 12px;
-  padding-bottom: 80px;
+  padding: 16px;
+  padding-bottom: 100px;
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -14,38 +14,39 @@
 // Currency Card
 .currency-card {
   background: rgba(26, 31, 61, 0.95);
-  border-radius: 16px;
-  padding: 14px;
+  border-radius: 20px;
+  padding: 16px;
   margin-bottom: 16px;
-  border: 1px solid rgba(255, 107, 0, 0.2);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .currency-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: white;
-  font-size: 14px;
+  gap: 10px;
+  color: #FFFFFF;
+  font-size: 15px;
   font-weight: 600;
   margin-bottom: 12px;
 }
 
 .currency-header ion-icon {
   color: #FF6B00;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .currency-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .currency-btn {
   background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 14px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -57,80 +58,90 @@
 
 .currency-btn.active {
   border-color: #FF6B00;
-  background: rgba(255, 107, 0, 0.15);
+  background: rgba(255, 107, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.15);
 }
 
 .currency-btn ion-icon {
-  font-size: 24px;
+  font-size: 28px;
   color: #FF6B00;
 }
 
 .currency-btn span {
-  color: white;
-  font-size: 13px;
+  color: #FFFFFF;
+  font-size: 14px;
   font-weight: 500;
 }
 
 .currency-btn small {
   color: rgba(255, 255, 255, 0.5);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 // Form Card
 .form-card {
   background: rgba(26, 31, 61, 0.95);
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: 20px;
+  padding: 18px;
   margin-bottom: 16px;
   border: 1px solid rgba(255, 107, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .form-card h3 {
-  color: white;
-  font-size: 15px;
+  color: #FFFFFF;
+  font-size: 16px;
   margin: 0 0 14px 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  font-weight: 600;
 }
 
 // Productos Grid
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 .producto-card {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 12px;
+  border-radius: 14px;
+  padding: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.producto-card:hover {
+  border-color: rgba(255, 107, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 .producto-card.selected {
   border-color: #FF6B00;
   background: rgba(255, 107, 0, 0.15);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.1);
 }
 
 .producto-card h4 {
-  color: white;
+  color: #FFFFFF;
   margin: 0 0 4px 0;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .producto-card p {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 11px;
+  font-size: 12px;
   margin: 0 0 8px 0;
+  line-height: 1.4;
 }
 
 .producto-card .precio {
   color: #FF6B00;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -143,10 +154,10 @@
 
 .input-icon {
   position: absolute;
-  left: 12px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 20px;
   color: #FF6B00;
   z-index: 2;
 }
@@ -155,98 +166,109 @@
 .custom-select,
 .custom-datetime {
   --background: #1A1F3D;
-  --border-radius: 12px;
-  --color: white;
-  --padding-start: 44px;
+  --border-radius: 14px;
+  --color: #FFFFFF !important;
+  --padding-start: 48px;
   --highlight-color-focused: #FF6B00;
   --placeholder-color: rgba(255, 255, 255, 0.5);
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .custom-select {
-  --padding-start: 44px;
-  min-height: 48px;
+  --padding-start: 48px;
+  min-height: 50px;
 }
 
 .custom-textarea {
   --background: #1A1F3D;
-  --border-radius: 12px;
-  --color: white;
-  --padding-start: 44px;
+  --border-radius: 14px;
+  --color: #FFFFFF !important;
+  --padding-start: 48px;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 // Cantidad Section
 .cantidad-section {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  padding: 16px;
   margin-bottom: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .cantidad-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: white;
-  font-size: 13px;
+  gap: 10px;
+  color: #FFFFFF;
+  font-size: 14px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .cantidad-header ion-icon {
   color: #FF6B00;
+  font-size: 20px;
 }
 
 .cantidad-control {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .cantidad-btn {
   --background: linear-gradient(135deg, #FF6B00, #E05F00);
   --border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  --box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+}
+
+.cantidad-btn:disabled {
+  --background: rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
 }
 
 .cantidad-valor {
   text-align: center;
-  min-width: 60px;
+  min-width: 70px;
 }
 
 .cantidad-valor .numero {
   display: block;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  color: white;
+  color: #FFFFFF;
 }
 
 .cantidad-valor .texto {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
 }
 
 .cantidad-range {
-  margin-top: 10px;
+  margin-top: 12px;
   padding: 0 4px;
 }
 
 // Precios Resumen
 .precios-resumen {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .precio-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   flex-wrap: wrap;
   gap: 4px;
@@ -258,77 +280,145 @@
 
 .precio-item span {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 12px;
-}
-
-.precio-item strong {
-  color: white;
   font-size: 13px;
 }
 
+.precio-item strong {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .precio-item .descuento {
-  color: #10b981;
+  color: #34d399;
 }
 
 .precio-item.total {
-  padding-top: 10px;
-  border-top: 2px solid rgba(255, 107, 0, 0.2);
+  padding-top: 12px;
+  border-top: 2px solid rgba(255, 107, 0, 0.3);
+  margin-top: 4px;
 }
 
 .precio-item.total span {
-  color: white;
-  font-size: 14px;
+  color: #FFFFFF;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .precio-item.total .total-precio {
   color: #FF6B00;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
 }
 
-// Generate Button
+// ============================================
+// BOTÓN GENERAR - MEJORADO
+// ============================================
+.button-container {
+  margin-top: 20px;
+  padding: 0 4px;
+  width: 100%;
+}
+
 .generate-button {
   --background: linear-gradient(135deg, #FF6B00, #E05F00);
-  --border-radius: 12px;
-  height: 50px;
-  font-size: 15px;
+  --background-activated: linear-gradient(135deg, #E05F00, #CC5500);
+  --border-radius: 16px;
+  --box-shadow: 0 6px 25px rgba(255, 107, 0, 0.4);
+  height: 56px;
+  font-size: 16px;
   font-weight: 700;
   width: 100%;
-  margin-top: 8px;
+  --color: #FFFFFF !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
 }
 
-// Responsive
+.generate-button:disabled {
+  --background: rgba(255, 255, 255, 0.1);
+  --box-shadow: none;
+  opacity: 0.6;
+}
+
+.generate-button ion-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.generate-button:not(:disabled):hover {
+  --box-shadow: 0 8px 35px rgba(255, 107, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+.generate-button:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.button-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.button-info ion-icon {
+  color: #FF6B00;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+
 @media (min-width: 768px) {
   .creator-container {
-    max-width: 700px;
+    max-width: 750px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px;
   }
   
   .productos-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .generate-button {
+    height: 60px;
+    font-size: 18px;
   }
 }
 
 @media (min-width: 1024px) {
   .creator-container {
     max-width: 900px;
+    padding: 32px;
+  }
+  
+  .productos-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   .creator-container {
-    padding: 8px;
+    padding: 10px;
+    padding-bottom: 90px;
   }
   
   .form-card {
-    padding: 12px;
+    padding: 14px;
   }
   
   .productos-grid {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 10px;
   }
   
   .currency-buttons {
@@ -336,21 +426,106 @@
   }
   
   .cantidad-control {
-    gap: 10px;
+    gap: 14px;
   }
   
   .cantidad-btn {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .cantidad-valor .numero {
+    font-size: 26px;
+  }
+  
+  .precio-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .precio-item.total {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .generate-button {
+    height: 50px;
+    font-size: 14px;
+    --border-radius: 14px;
+  }
+  
+  .button-info {
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .creator-container {
+    padding: 6px;
+    padding-bottom: 80px;
+  }
+  
+  .form-card {
+    padding: 10px;
+  }
+  
+  .currency-btn {
+    padding: 10px;
+  }
+  
+  .currency-btn ion-icon {
+    font-size: 22px;
+  }
+  
+  .currency-btn span {
+    font-size: 12px;
   }
   
   .cantidad-valor .numero {
     font-size: 22px;
   }
   
-  .precio-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+  .generate-button {
+    height: 44px;
+    font-size: 12px;
   }
+}
+
+// ============================================
+// ANIMACIONES
+// ============================================
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-card {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.generate-button {
+  animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.generate-button:not(:disabled) {
+  animation: pulse 2s ease-in-out infinite;
 }
