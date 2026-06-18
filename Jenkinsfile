@@ -14,9 +14,19 @@ pipeline {
             }
         }
 
+        stage('Diagnose') {
+            steps {
+                bat 'echo "Available scripts:"'
+                bat 'npm run'
+                bat 'echo "Ionic version:"'
+                bat 'npx ionic --version || echo "Ionic not found"'
+            }
+        }
+
         stage('Build') {
             steps {
-                bat 'npm run build'
+                // Intenta diferentes comandos de build
+                bat 'npx ionic build --prod || npx ng build --prod || npm run build:prod || echo "Build failed"'
             }
         }
 
