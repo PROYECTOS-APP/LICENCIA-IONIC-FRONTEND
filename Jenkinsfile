@@ -16,29 +16,55 @@ pipeline {
 
         stage('Diagnose') {
             steps {
-                bat 'echo "Available scripts:"'
+                bat 'echo "=== Package.json Content ==="'
+                bat 'type package.json || echo "No se puede leer package.json"'
+                bat 'echo "=== Available Scripts ==="'
                 bat 'npm run'
-                bat 'echo "Ionic version:"'
-                bat 'npx ionic --version || echo "Ionic not found"'
+                bat 'echo "=== Ionic Version ==="'
+                bat 'npx ionic --version'
             }
         }
 
         stage('Build') {
             steps {
-                // Intenta diferentes comandos de build
-                bat 'npx ionic build --prod || npx ng build --prod || npm run build:prod || echo "Build failed"'
+                script {
+                    // Intentar diferentes comandos de build
+                    def buildCommands = [
+                        'npx ionic build --configuration=production',
+                        'npx ionic build -c production',
+                        'npx ionic build',
+                        'npx ng build --configuration=production',
+                        'npx ng build',
+                        'npm run build'
+                    ]
+                    
+                    def success = false
+                    for (cmd in buildCommands) {
+                        try {
+                            bat cmd
+                            success = true
+                            break
+                        } catch (Exception e) {
+                            echo "Comando falló: ${cmd}"
+                        }
+                    }
+                    
+                    if (!success) {
+                        error "Todos los comandos de build fallaron"
+                    }
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'echo test OK'
+                bat 'echo "Build completed successfully"'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'echo deploy OK'
+                bat 'echo "Deploy OK"'
             }
         }
     }
