@@ -1,0 +1,294 @@
+-- =====================================================
+-- BASE DE DATOS: LICENCIAS APP
+-- =====================================================
+
+-- Crear la base de datos
+CREATE DATABASE licencia_db;
+GO
+
+-- Usar la base de datos
+USE licencia_db;
+GO
+
+-- =====================================================
+-- 1. TABLA DE USUARIOS
+-- =====================================================
+CREATE TABLE usuarios (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) NULL,
+    empresa VARCHAR(100) NULL,
+    rol VARCHAR(50) DEFAULT 'USUARIO',
+    activo BIT DEFAULT 1,
+    verificado BIT DEFAULT 0,
+    codigo_verificacion VARCHAR(10) NULL,
+    fecha_expiracion_codigo DATETIME NULL,
+    fecha_creacion DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- =====================================================
+-- 2. TABLA DE LICENCIAS
+-- =====================================================
+CREATE TABLE licencias (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    codigo_licencia VARCHAR(50) UNIQUE NOT NULL,
+    producto VARCHAR(100) NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    fecha_vencimiento DATE NOT NULL,
+    cantidad_usuarios INT DEFAULT 1,
+    precio_total_usd DECIMAL(10,2) NULL,
+    precio_total_pen DECIMAL(10,2) NULL,
+    cliente VARCHAR(100) NOT NULL,
+    empresa VARCHAR(100) NULL,
+    correo VARCHAR(100) NOT NULL,
+    notas TEXT NULL,
+    usuario_id INT NULL,
+    fecha_creacion DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+GO
+
+-- =====================================================
+-- 3. TABLA DE ALERTAS
+-- =====================================================
+CREATE TABLE alertas (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    titulo VARCHAR(200) NOT NULL,
+    mensaje TEXT NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    prioridad VARCHAR(50) NOT NULL,
+    fecha_expiracion DATE NULL,
+    usuario_id INT NULL,
+    fecha_creacion DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+GO
+
+-- =====================================================
+-- 4. TABLA DE REGISTROS DE ACTIVIDAD (AUDITORIA)
+-- =====================================================
+CREATE TABLE registros_actividad (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    usuario_id INT NULL,
+    accion VARCHAR(100) NOT NULL,
+    descripcion TEXT NULL,
+    ip VARCHAR(50) NULL,
+    fecha_registro DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+GO
+
+-- =====================================================
+-- 5. TABLA DE LOGS DEL SISTEMA
+-- =====================================================
+CREATE TABLE logs_sistema (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nivel VARCHAR(20) NOT NULL,
+    mensaje TEXT NOT NULL,
+    clase VARCHAR(200) NULL,
+    metodo VARCHAR(100) NULL,
+    fecha_registro DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- =====================================================
+-- INSERTAR USUARIO ADMIN (password: admin123)
+-- La contraseña está encriptada con BCrypt
+-- =====================================================
+INSERT INTO usuarios (nombre, email, password, rol, activo, verificado) 
+VALUES ('Administrador', 'admin@gmail.com', '$2a$10$rXJ.m.krQkY.tR5XkXkXkOqXkXkXkXkXkXkXkXkXkXkXkXkXkXkX', 'ADMIN', 1, 1);
+GO
+
+-- =====================================================
+-- INSERTAR USUARIO DEMO (password: demo123)
+-- =====================================================
+INSERT INTO usuarios (nombre, email, password, rol, activo, verificado) 
+VALUES ('Usuario Demo', 'demo@licencia.com', '$2a$10$rXJ.m.krQkY.tR5XkXkXkOqXkXkXkXkXkXkXkXkXkXkXkXkXkXkX', 'USUARIO', 1, 1);
+GO
+
+-- =====================================================
+-- INSERTAR LICENCIAS DE EJEMPLO
+-- =====================================================
+INSERT INTO licencias (codigo_licencia, producto, tipo, fecha_vencimiento, cantidad_usuarios, precio_total_usd, precio_total_pen, cliente, empresa, correo, usuario_id) 
+VALUES 
+('LIC-A3F9K2M1', 'Producto Premium', 'Anual', '2025-12-31', 5, 299.99, 1139.96, 'Juan Pérez', 'Tech Solutions', 'juan@tech.com', 1),
+('LIC-B4G8H3N9', 'Producto Básico', 'Mensual', '2024-12-31', 2, 99.99, 379.96, 'María López', 'Digital Agency', 'maria@digital.com', 1),
+('LIC-C7J2L5P8', 'Producto Empresarial', 'Anual', '2026-06-30', 10, 599.99, 2279.96, 'Carlos Ruiz', 'Corporación XYZ', 'carlos@xyz.com', 2);
+GO
+
+-- =====================================================
+-- INSERTAR ALERTAS DE EJEMPLO
+-- =====================================================
+INSERT INTO alertas (titulo, mensaje, tipo, prioridad, fecha_expiracion, usuario_id) 
+VALUES 
+('Licencia por vencer', 'La licencia de Juan Pérez vence en 30 días', 'Advertencia', 'Alta', '2025-12-01', 1),
+('Nueva versión disponible', 'Hay una nueva versión del software', 'Info', 'Media', '2024-12-01', 1);
+GO
+
+-- =====================================================
+-- INSERTAR REGISTROS DE ACTIVIDAD DE EJEMPLO
+-- =====================================================
+INSERT INTO registros_actividad (usuario_id, accion, descripcion, ip) 
+VALUES 
+(1, 'LOGIN', 'Inicio de sesión exitoso', '192.168.1.100'),
+(1, 'CREAR_LICENCIA', 'Creó licencia para Juan Pérez', '192.168.1.100'),
+(2, 'LOGIN', 'Inicio de sesión exitoso', '192.168.1.101');
+GO
+
+-- =====================================================
+-- VISTAS ÚTILES
+-- =====================================================
+
+-- Vista: Licencias por usuario
+CREATE VIEW vw_licencias_usuario AS
+SELECT 
+    u.id AS usuario_id,
+    u.nombre AS usuario_nombre,
+    u.email AS usuario_email,
+    l.codigo_licencia,
+    l.producto,
+    l.tipo,
+    l.fecha_vencimiento,
+    l.cliente,
+    l.correo AS cliente_email,
+    l.precio_total_usd,
+    l.precio_total_pen,
+    l.fecha_creacion AS licencia_fecha_creacion
+FROM licencias l
+INNER JOIN usuarios u ON l.usuario_id = u.id;
+GO
+
+-- Vista: Alertas activas
+CREATE VIEW vw_alertas_activas AS
+SELECT 
+    a.*,
+    u.nombre AS usuario_nombre,
+    u.email AS usuario_email
+FROM alertas a
+LEFT JOIN usuarios u ON a.usuario_id = u.id
+WHERE a.fecha_expiracion > GETDATE() OR a.fecha_expiracion IS NULL;
+GO
+
+-- =====================================================
+-- ÍNDICES PARA OPTIMIZACIÓN
+-- =====================================================
+
+-- Índices para usuarios
+CREATE INDEX idx_usuarios_email ON usuarios(email);
+CREATE INDEX idx_usuarios_rol ON usuarios(rol);
+
+-- Índices para licencias
+CREATE INDEX idx_licencias_codigo ON licencias(codigo_licencia);
+CREATE INDEX idx_licencias_usuario ON licencias(usuario_id);
+CREATE INDEX idx_licencias_vencimiento ON licencias(fecha_vencimiento);
+CREATE INDEX idx_licencias_cliente ON licencias(cliente);
+CREATE INDEX idx_licencias_correo ON licencias(correo);
+
+-- Índices para alertas
+CREATE INDEX idx_alertas_usuario ON alertas(usuario_id);
+CREATE INDEX idx_alertas_prioridad ON alertas(prioridad);
+CREATE INDEX idx_alertas_expiracion ON alertas(fecha_expiracion);
+
+-- Índices para actividad
+CREATE INDEX idx_actividad_usuario ON registros_actividad(usuario_id);
+CREATE INDEX idx_actividad_fecha ON registros_actividad(fecha_registro);
+
+-- =====================================================
+-- STORED PROCEDURES
+-- =====================================================
+
+-- SP: Obtener licencias por usuario
+GO
+CREATE PROCEDURE sp_licencias_por_usuario
+    @usuario_id INT
+AS
+BEGIN
+    SELECT * FROM licencias WHERE usuario_id = @usuario_id ORDER BY fecha_creacion DESC;
+END;
+GO
+
+-- SP: Registrar actividad
+GO
+CREATE PROCEDURE sp_registrar_actividad
+    @usuario_id INT,
+    @accion VARCHAR(100),
+    @descripcion TEXT,
+    @ip VARCHAR(50)
+AS
+BEGIN
+    INSERT INTO registros_actividad (usuario_id, accion, descripcion, ip)
+    VALUES (@usuario_id, @accion, @descripcion, @ip);
+END;
+GO
+
+-- SP: Limpiar códigos expirados
+GO
+CREATE PROCEDURE sp_limpiar_codigos_expirados
+AS
+BEGIN
+    UPDATE usuarios 
+    SET codigo_verificacion = NULL, 
+        fecha_expiracion_codigo = NULL
+    WHERE fecha_expiracion_codigo < GETDATE();
+END;
+GO
+
+-- =====================================================
+-- TRIGGERS
+-- =====================================================
+
+-- Trigger: Registrar cuando se crea una licencia
+GO
+CREATE TRIGGER trg_licencia_creada
+ON licencias
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO registros_actividad (usuario_id, accion, descripcion)
+    SELECT usuario_id, 'CREAR_LICENCIA', 'Creó licencia ' + codigo_licencia
+    FROM inserted;
+END;
+GO
+
+-- =====================================================
+-- CONSULTAS DE VERIFICACIÓN
+-- =====================================================
+
+-- Verificar tablas creadas
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';
+GO
+
+-- Verificar usuarios
+SELECT id, nombre, email, rol, activo, verificado FROM usuarios;
+GO
+
+-- Verificar licencias
+SELECT * FROM licencias;
+GO
+
+-- Verificar alertas
+SELECT * FROM alertas;
+GO
+
+-- Verificar vista de licencias por usuario
+SELECT * FROM vw_licencias_usuario;
+GO
+
+-- Verificar vista de alertas activas
+SELECT * FROM vw_alertas_activas;
+GO
+
+-- =====================================================
+-- RESPALDOS (Opcional)
+-- =====================================================
+
+-- Respaldo de la base de datos (ejecutar en SQL Server Management Studio)
+-- BACKUP DATABASE licencia_db TO DISK = 'C:\backup\licencia_db.bak';
+GO
+
+-- =====================================================
+-- FIN DEL SCRIPT
+-- =====================================================
