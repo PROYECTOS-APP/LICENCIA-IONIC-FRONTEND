@@ -10,7 +10,7 @@ pipeline {
 
         stage('Install') {
             steps {
-                bat 'npm install'
+                bat 'npm install --legacy-peer-deps'
             }
         }
 
