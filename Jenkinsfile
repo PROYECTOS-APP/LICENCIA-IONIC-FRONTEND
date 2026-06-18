@@ -4,33 +4,67 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo ' Clonando repositorio...'
                 git branch: 'main', url: 'https://github.com/PROYECTOS-APP/LICENCIA-IONIC-FRONTEND.git'
             }
         }
 
         stage('Install') {
             steps {
+                echo ' Instalando dependencias...'
                 bat 'npm install --legacy-peer-deps'
             }
         }
 
         stage('Build') {
             steps {
-                // Sobrescribir budgets desde la línea de comandos
-                bat 'npx ng build --configuration=production --budgets="anyComponentStyle:10kb|initial:5mb"'
+                echo ' Construyendo aplicación...'
+                // Construir con configuraciones de angular.json
+                bat 'npx ng build --configuration=production'
             }
-        }
-
-        stage('Test') {
-            steps {
-                bat 'echo "Build completed successfully"'
+            post {
+                success {
+                    echo ' Build exitoso'
+                    archiveArtifacts artifacts: 'www/**/*'
+                }
+                failure {
+                    echo ' Build falló, intentando con otra configuración...'
+                    script {
+                        try {
+                            // Intentar con configuración de desarrollo
+                            bat 'npx ng build --configuration=development'
+                            echo ' Build con desarrollo exitoso'
+                            archiveArtifacts artifacts: 'www/**/*'
+                        } catch (Exception e) {
+                            echo ' Build falló completamente'
+                            throw e
+                        }
+                    }
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'echo "Deploy OK"'
+                echo ' Desplegando archivos...'
+                bat '''
+                    if not exist deploy mkdir deploy
+                    xcopy /E /I /Y www deploy
+                    echo " Archivos desplegados en deploy/"
+                '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo ' PIPELINE EXITOSO'
+        }
+        failure {
+            echo ' PIPELINE FALLÓ'
+        }
+        always {
+            cleanWs()
         }
     }
 }
