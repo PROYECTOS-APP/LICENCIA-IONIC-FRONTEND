@@ -14,45 +14,10 @@ pipeline {
             }
         }
 
-        stage('Diagnose') {
-            steps {
-                bat 'echo "=== Package.json Content ==="'
-                bat 'type package.json || echo "No se puede leer package.json"'
-                bat 'echo "=== Available Scripts ==="'
-                bat 'npm run'
-                bat 'echo "=== Ionic Version ==="'
-                bat 'npx ionic --version'
-            }
-        }
-
         stage('Build') {
             steps {
-                script {
-                    // Intentar diferentes comandos de build
-                    def buildCommands = [
-                        'npx ionic build --configuration=production',
-                        'npx ionic build -c production',
-                        'npx ionic build',
-                        'npx ng build --configuration=production',
-                        'npx ng build',
-                        'npm run build'
-                    ]
-                    
-                    def success = false
-                    for (cmd in buildCommands) {
-                        try {
-                            bat cmd
-                            success = true
-                            break
-                        } catch (Exception e) {
-                            echo "Comando falló: ${cmd}"
-                        }
-                    }
-                    
-                    if (!success) {
-                        error "Todos los comandos de build fallaron"
-                    }
-                }
+                // Sobrescribir budgets desde la línea de comandos
+                bat 'npx ng build --configuration=production --budgets="anyComponentStyle:10kb|initial:5mb"'
             }
         }
 
