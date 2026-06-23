@@ -5,14 +5,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private apiUrl = environment.apiUrl;  // ← ✅ CORREGIDO
+  private apiUrl = environment.apiUrl;  
 
   constructor(private http: HttpClient) {}
 
   // ============ LICENCIAS ============
   async crearLicencia(data: any): Promise<any> {
     try {
-      console.log('📤 Enviando licencia al backend:', data);
+      console.log('Enviando licencia al backend:', data);
       
       const response = await firstValueFrom(
         this.http.post(`${this.apiUrl}/licencias/crear`, data, {
@@ -23,10 +23,10 @@ export class ApiService {
         })
       );
       
-      console.log('✅ Respuesta del backend:', response);
+      console.log(' Respuesta del backend:', response);
       return { success: true, data: response };
     } catch (error: any) {
-      console.error('❌ Error detallado:', error);
+      console.error(' Error detallado:', error);
       if (error.status === 401) {
         return { success: false, message: 'No autenticado. Inicia sesión nuevamente.' };
       }
@@ -46,7 +46,7 @@ export class ApiService {
       );
       return response as any[];
     } catch (error) {
-      console.error('❌ Error al obtener licencias:', error);
+      console.error(' Error al obtener licencias:', error);
       return [];
     }
   }
@@ -60,7 +60,7 @@ export class ApiService {
       );
       return response;
     } catch (error) {
-      console.error('❌ Error al obtener licencia:', error);
+      console.error(' Error al obtener licencia:', error);
       return null;
     }
   }
@@ -74,7 +74,7 @@ export class ApiService {
       );
       return true;
     } catch (error) {
-      console.error('❌ Error al eliminar licencia:', error);
+      console.error(' Error al eliminar licencia:', error);
       return false;
     }
   }
@@ -89,7 +89,7 @@ export class ApiService {
       );
       return response as any[];
     } catch (error) {
-      console.error('❌ Error al obtener alertas:', error);
+      console.error(' Error al obtener alertas:', error);
       return [];
     }
   }
@@ -103,7 +103,7 @@ export class ApiService {
       );
       return { success: true, data: response };
     } catch (error: any) {
-      console.error('❌ Error al crear alerta:', error);
+      console.error(' Error al crear alerta:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error al crear la alerta' 
@@ -120,7 +120,7 @@ export class ApiService {
       );
       return true;
     } catch (error) {
-      console.error('❌ Error al eliminar alerta:', error);
+      console.error(' Error al eliminar alerta:', error);
       return false;
     }
   }
@@ -134,7 +134,7 @@ export class ApiService {
       );
       return true;
     } catch (error) {
-      console.error('❌ Error al marcar alerta como leída:', error);
+      console.error(' Error al marcar alerta como leída:', error);
       return false;
     }
   }
@@ -149,7 +149,7 @@ export class ApiService {
       );
       return response as any[];
     } catch (error) {
-      console.error('❌ Error al obtener productos:', error);
+      console.error(' Error al obtener productos:', error);
       return [];
     }
   }
@@ -164,7 +164,7 @@ export class ApiService {
       );
       return response;
     } catch (error) {
-      console.error('❌ Error al obtener estadísticas:', error);
+      console.error(' Error al obtener estadísticas:', error);
       return null;
     }
   }

@@ -57,7 +57,7 @@ export class LoginPage {
       await loading.dismiss();
 
       if (result && result.success) {
-        console.log('✅ Login exitoso');
+        console.log(' Login exitoso');
         this.router.navigateByUrl('/home', { replaceUrl: true });
       } else {
         this.errorMessage = result?.message || 'Credenciales incorrectas';
@@ -65,7 +65,7 @@ export class LoginPage {
       }
     } catch (error: any) {
       await loading.dismiss();
-      console.error('❌ Error en login:', error);
+      console.error(' Error en login:', error);
       this.errorMessage = error?.message || 'Error de conexión';
       this.isLoading = false;
     }

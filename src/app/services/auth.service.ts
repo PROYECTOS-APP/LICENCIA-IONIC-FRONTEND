@@ -15,7 +15,7 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<any> {
     try {
-      console.log('🔐 Intentando login:', email);
+      console.log(' Intentando login:', email);
       
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/login`, 
@@ -24,7 +24,7 @@ export class AuthService {
         )
       );
       
-      console.log('✅ Respuesta login:', response);
+      console.log(' Respuesta login:', response);
       
       if (response && response.success) {
         const userData = { 
@@ -34,12 +34,12 @@ export class AuthService {
           avatar: response.avatar || 'assets/icon/avatar-default.png'
         };
         localStorage.setItem('user', JSON.stringify(userData));
-        console.log('✅ Login exitoso, sesión guardada');
+        console.log(' Login exitoso, sesión guardada');
         return { success: true, data: userData };
       }
       return { success: false, message: response?.mensaje || 'Credenciales inválidas' };
     } catch (error: any) {
-      console.error('❌ Error en login:', error);
+      console.error(' Error en login:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión' 
@@ -49,7 +49,7 @@ export class AuthService {
 
   async register(nombre: string, email: string, password: string): Promise<any> {
     try {
-      console.log('📝 Intentando registrar:', email);
+      console.log(' Intentando registrar:', email);
       
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/registro`, 
@@ -58,7 +58,7 @@ export class AuthService {
         )
       );
       
-      console.log('✅ Respuesta registro:', response);
+      console.log(' Respuesta registro:', response);
       
       if (response && response.success) {
         const userData = { 
@@ -68,12 +68,12 @@ export class AuthService {
           avatar: response.avatar || 'assets/icon/avatar-default.png'
         };
         localStorage.setItem('user', JSON.stringify(userData));
-        console.log('✅ Registro exitoso');
+        console.log(' Registro exitoso');
         return { success: true, data: userData };
       }
       return { success: false, message: response?.mensaje || 'Error en el registro' };
     } catch (error: any) {
-      console.error('❌ Error en registro:', error);
+      console.error(' Error en registro:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión' 
@@ -87,7 +87,7 @@ export class AuthService {
 
   async forgotPassword(email: string): Promise<any> {
     try {
-      console.log('📧 Enviando solicitud de recuperación para:', email);
+      console.log(' Enviando solicitud de recuperación para:', email);
       
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/forgot-password`, 
@@ -96,7 +96,7 @@ export class AuthService {
         )
       );
       
-      console.log('✅ Respuesta forgot-password:', response);
+      console.log(' Respuesta forgot-password:', response);
       
       if (response && response.success) {
         return { 
@@ -110,7 +110,7 @@ export class AuthService {
         message: response?.mensaje || 'Error al enviar el correo. Verifica que el email esté registrado.' 
       };
     } catch (error: any) {
-      console.error('❌ Error en forgot-password:', error);
+      console.error(' Error en forgot-password:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión' 
@@ -120,7 +120,7 @@ export class AuthService {
 
   async resetPassword(token: string, newPassword: string): Promise<any> {
     try {
-      console.log('🔐 Restableciendo contraseña con token:', token);
+      console.log(' Restableciendo contraseña con token:', token);
       
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/reset-password`, 
@@ -129,7 +129,7 @@ export class AuthService {
         )
       );
       
-      console.log('✅ Respuesta reset-password:', response);
+      console.log(' Respuesta reset-password:', response);
       
       if (response && response.success) {
         return { 
@@ -142,7 +142,7 @@ export class AuthService {
         message: response?.mensaje || 'Error al restablecer la contraseña. El enlace puede haber expirado.' 
       };
     } catch (error: any) {
-      console.error('❌ Error en reset-password:', error);
+      console.error(' Error en reset-password:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión. Verifica tu conexión a internet.' 
@@ -159,7 +159,7 @@ export class AuthService {
       const formData = new FormData();
       formData.append('avatar', file);
 
-      console.log('📤 Subiendo avatar...');
+      console.log('Subiendo avatar...');
 
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/avatar/upload`, formData, {
@@ -167,7 +167,7 @@ export class AuthService {
         })
       );
 
-      console.log('✅ Respuesta upload-avatar:', response);
+      console.log(' Respuesta upload-avatar:', response);
 
       if (response.success) {
         // Actualizar localStorage
@@ -180,7 +180,7 @@ export class AuthService {
       }
       return { success: false, message: response?.message || 'Error al subir avatar' };
     } catch (error: any) {
-      console.error('❌ Error al subir avatar:', error);
+      console.error(' Error al subir avatar:', error);
       return { 
         success: false, 
         message: error.error?.message || 'Error de conexión' 
@@ -190,7 +190,7 @@ export class AuthService {
 
   async deleteAvatar(): Promise<any> {
     try {
-      console.log('🗑️ Eliminando avatar...');
+      console.log(' Eliminando avatar...');
 
       const response = await firstValueFrom(
         this.http.delete<any>(`${this.apiUrl}/avatar/delete`, {
@@ -198,7 +198,7 @@ export class AuthService {
         })
       );
 
-      console.log('✅ Respuesta delete-avatar:', response);
+      console.log('Respuesta delete-avatar:', response);
 
       if (response.success) {
         // Actualizar localStorage
@@ -211,7 +211,7 @@ export class AuthService {
       }
       return { success: false, message: response?.message || 'Error al eliminar avatar' };
     } catch (error: any) {
-      console.error('❌ Error al eliminar avatar:', error);
+      console.error(' Error al eliminar avatar:', error);
       return { 
         success: false, 
         message: error.error?.message || 'Error de conexión' 
@@ -232,7 +232,7 @@ export class AuthService {
       );
       return response && response.success;
     } catch (error) {
-      console.error('❌ Error al verificar sesión:', error);
+      console.error(' Error al verificar sesión:', error);
       return false;
     }
   }
@@ -271,7 +271,7 @@ export class AuthService {
       }
       return null;
     } catch (error) {
-      console.error('❌ Error al obtener usuario del servidor:', error);
+      console.error(' Error al obtener usuario del servidor:', error);
       return null;
     }
   }
@@ -296,9 +296,9 @@ export class AuthService {
         })
       );
       
-      console.log('✅ Logout exitoso');
+      console.log(' Logout exitoso');
     } catch (error) {
-      console.error('❌ Error en logout:', error);
+      console.error(' Error en logout:', error);
     }
   }
 
@@ -334,7 +334,7 @@ export class AuthService {
 
   async validateResetToken(token: string): Promise<any> {
     try {
-      console.log('🔍 Validando token:', token);
+      console.log(' Validando token:', token);
       
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/validate-token`, 
@@ -343,7 +343,7 @@ export class AuthService {
         )
       );
       
-      console.log('✅ Respuesta validate-token:', response);
+      console.log(' Respuesta validate-token:', response);
       
       if (response && response.success) {
         return { 
@@ -357,7 +357,7 @@ export class AuthService {
         message: response?.mensaje || 'Token inválido o expirado' 
       };
     } catch (error: any) {
-      console.error('❌ Error en validate-token:', error);
+      console.error(' Error en validate-token:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión' 
@@ -367,7 +367,7 @@ export class AuthService {
 
   async checkEmailExists(email: string): Promise<any> {
     try {
-      console.log('🔍 Verificando email:', email);
+      console.log(' Verificando email:', email);
       
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/check-email`, 
@@ -376,7 +376,7 @@ export class AuthService {
         )
       );
       
-      console.log('✅ Respuesta check-email:', response);
+      console.log(' Respuesta check-email:', response);
       
       if (response && response.success) {
         return { 
@@ -391,7 +391,7 @@ export class AuthService {
         message: response?.mensaje || 'Email no encontrado' 
       };
     } catch (error: any) {
-      console.error('❌ Error en check-email:', error);
+      console.error(' Error en check-email:', error);
       return { 
         success: false, 
         exists: false,

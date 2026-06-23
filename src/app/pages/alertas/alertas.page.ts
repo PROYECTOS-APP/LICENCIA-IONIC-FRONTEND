@@ -62,7 +62,7 @@ goToHome() {
     try {
       const response = await this.apiService.getMisAlertas();
       this.alertas = response;
-      console.log('📋 Alertas cargadas:', this.alertas.length);
+      console.log('Alertas cargadas:', this.alertas.length);
     } catch (error) {
       console.error(' Error al cargar alertas:', error);
     } finally {
@@ -122,7 +122,7 @@ goToHome() {
     } catch (error) {
       console.error('Error al crear alerta:', error);
       const alert = await this.alertController.create({
-        header: '❌ Error',
+        header: ' Error',
         message: 'No se pudo crear la alerta',
         buttons: ['OK']
       });

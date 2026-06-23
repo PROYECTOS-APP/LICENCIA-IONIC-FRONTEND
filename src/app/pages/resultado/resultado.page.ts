@@ -21,7 +21,7 @@ export class ResultadoPage implements OnInit {
     private platform: Platform,
     private alertController: AlertController
   ) {
-    console.log('📄 ResultadoPage constructor');
+    console.log(' ResultadoPage constructor');
   }
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class ResultadoPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('📄 ResultadoPage ionViewWillEnter');
+    console.log(' ResultadoPage ionViewWillEnter');
     this.cargarDatos();
   }
 
@@ -37,13 +37,13 @@ export class ResultadoPage implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as any;
     
-    console.log('📦 State recibido:', state);
+    console.log('State recibido:', state);
     
     if (state?.licenciaData) {
       this.licenciaData = state.licenciaData;
-      console.log('✅ Licencia cargada:', this.licenciaData);
+      console.log('Licencia cargada:', this.licenciaData);
     } else {
-      console.warn('⚠️ No hay datos de licencia');
+      console.warn(' No hay datos de licencia');
       // Si no hay datos, redirigir a home
       setTimeout(() => {
         this.router.navigateByUrl('/home', { replaceUrl: true });
@@ -70,14 +70,14 @@ export class ResultadoPage implements OnInit {
   async copyCode() {
     if (this.licenciaData.codigoLicencia) {
       await navigator.clipboard.writeText(this.licenciaData.codigoLicencia);
-      await this.showToast('📋 Código copiado al portapapeles');
+      await this.showToast(' Código copiado al portapapeles');
     }
   }
 
   async copyAll() {
     const texto = this.generarTextoCompleto();
     await navigator.clipboard.writeText(texto);
-    await this.showToast('📋 Todos los datos copiados');
+    await this.showToast('Todos los datos copiados');
   }
 
   generarTextoCompleto(): string {
@@ -92,24 +92,24 @@ export class ResultadoPage implements OnInit {
           LICENCIA GENERADA
 ═══════════════════════════════════════
 
-🔑 CÓDIGO: ${this.licenciaData.codigoLicencia}
+ CÓDIGO: ${this.licenciaData.codigoLicencia}
 
-📦 PRODUCTO: ${this.licenciaData.producto}
-📌 TIPO: ${this.licenciaData.tipo}
-📅 VENCIMIENTO: ${this.formatDate(this.licenciaData.fechaVencimiento)}
-🎫 CANTIDAD: ${this.licenciaData.cantidadLicencias} licencia(s)
-💰 TOTAL: ${precio}
+ PRODUCTO: ${this.licenciaData.producto}
+ TIPO: ${this.licenciaData.tipo}
+ VENCIMIENTO: ${this.formatDate(this.licenciaData.fechaVencimiento)}
+ CANTIDAD: ${this.licenciaData.cantidadLicencias} licencia(s)
+ TOTAL: ${precio}
 
 ───────────────────────────────────────
          👤 DATOS DEL CLIENTE
 ───────────────────────────────────────
 
-👤 CLIENTE: ${this.licenciaData.cliente}
-🏢 EMPRESA: ${this.licenciaData.empresa || 'No especificada'}
-📧 EMAIL: ${this.licenciaData.correo}
+ CLIENTE: ${this.licenciaData.cliente}
+ EMPRESA: ${this.licenciaData.empresa || 'No especificada'}
+ EMAIL: ${this.licenciaData.correo}
 
 ───────────────────────────────────────
-📅 GENERADA: ${fechaGeneracion}
+ GENERADA: ${fechaGeneracion}
 ═══════════════════════════════════════
     `;
   }
@@ -119,7 +119,7 @@ export class ResultadoPage implements OnInit {
     
     const element = document.getElementById('licencia-content');
     if (!element) {
-      await this.showToast('❌ Error al generar PDF');
+      await this.showToast(' Error al generar PDF');
       this.isExporting = false;
       return;
     }
@@ -144,10 +144,10 @@ export class ResultadoPage implements OnInit {
       pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
       pdf.save(`licencia_${this.licenciaData.codigoLicencia}.pdf`);
       
-      await this.showToast('📄 PDF generado correctamente');
+      await this.showToast(' PDF generado correctamente');
     } catch (error) {
-      console.error('❌ Error al generar PDF:', error);
-      await this.showToast('❌ Error al generar PDF');
+      console.error(' Error al generar PDF:', error);
+      await this.showToast(' Error al generar PDF');
     } finally {
       this.isExporting = false;
     }
@@ -186,12 +186,12 @@ export class ResultadoPage implements OnInit {
           dialogTitle: 'Compartir licencia'
         });
       } catch (error) {
-        console.error('❌ Error al compartir:', error);
+        console.error(' Error al compartir:', error);
         await this.copyAll();
       }
     } else {
       await this.copyAll();
-      await this.showToast('📋 Texto copiado. Pégalo donde quieras');
+      await this.showToast(' Texto copiado. Pégalo donde quieras');
     }
   }
 
@@ -206,24 +206,24 @@ export class ResultadoPage implements OnInit {
   }
 
   nuevaLicencia() {
-    console.log('🔄 Creando nueva licencia');
+    console.log(' Creando nueva licencia');
     this.router.navigateByUrl('/crear-licencia', { replaceUrl: true })
       .then(() => {
-        console.log('✅ Navegación a crear-licencia exitosa');
+        console.log(' Navegación a crear-licencia exitosa');
       })
       .catch(err => {
-        console.error('❌ Error navegando:', err);
+        console.error(' Error navegando:', err);
       });
   }
 
   goToHome() {
-    console.log('🏠 Volviendo a home');
+    console.log(' Volviendo a home');
     this.router.navigateByUrl('/home', { replaceUrl: true })
       .then(() => {
-        console.log('✅ Navegación a home exitosa');
+        console.log(' Navegación a home exitosa');
       })
       .catch(err => {
-        console.error('❌ Error navegando:', err);
+        console.error(' Error navegando:', err);
       });
   }
 }

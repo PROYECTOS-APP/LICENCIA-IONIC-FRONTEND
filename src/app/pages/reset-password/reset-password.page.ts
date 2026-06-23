@@ -36,13 +36,13 @@ export class ResetPasswordPage implements OnInit {
     if (state) {
       this.email = state.email || '';
       this.token = state.token || '';
-      console.log('📧 Email recibido:', this.email);
-      console.log('🔑 Token recibido:', this.token);
+      console.log(' Email recibido:', this.email);
+      console.log(' Token recibido:', this.token);
     }
     
     // Si no hay email o token, redirigir a forgot-password
     if (!this.email || !this.token) {
-      console.warn('⚠️ No hay email o token, redirigiendo a forgot-password');
+      console.warn(' No hay email o token, redirigiendo a forgot-password');
       setTimeout(() => {
         this.router.navigateByUrl('/forgot-password', { replaceUrl: true });
       }, 1000);
@@ -92,7 +92,7 @@ export class ResetPasswordPage implements OnInit {
       await loading.dismiss();
       
       if (response && response.success) {
-        this.successMessage = response.message || '✅ Contraseña actualizada correctamente';
+        this.successMessage = response.message || ' Contraseña actualizada correctamente';
         
         // Mostrar alerta de éxito
         const alert = await this.alertController.create({
@@ -115,12 +115,12 @@ export class ResetPasswordPage implements OnInit {
         }, 3000);
         
       } else {
-        this.errorMessage = response?.message || '❌ Error al restablecer contraseña';
+        this.errorMessage = response?.message || ' Error al restablecer contraseña';
         this.isLoading = false;
       }
     } catch (error: any) {
       await loading.dismiss();
-      console.error('❌ Error en reset-password:', error);
+      console.error('Error en reset-password:', error);
       this.errorMessage = error?.message || 'Error de conexión. Verifica tu conexión a internet.';
       this.isLoading = false;
     }

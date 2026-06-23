@@ -12,32 +12,32 @@ export class StorageService {
   // Inicializar la base de datos local
   async init() {
     this._storage = await this.storage.create();
-    console.log('📦 Storage inicializado');
+    console.log(' Storage inicializado');
   }
 
   // Guardar un dato
   async set(key: string, value: any): Promise<void> {
     await this._storage?.set(key, value);
-    console.log(`💾 Guardado: ${key} =`, value);
+    console.log(` Guardado: ${key} =`, value);
   }
 
   // Obtener un dato
   async get(key: string): Promise<any> {
     const value = await this._storage?.get(key);
-    console.log(`📖 Leído: ${key} =`, value);
+    console.log(` Leído: ${key} =`, value);
     return value;
   }
 
   // Eliminar un dato
   async remove(key: string): Promise<void> {
     await this._storage?.remove(key);
-    console.log(`🗑️ Eliminado: ${key}`);
+    console.log(`Eliminado: ${key}`);
   }
 
   // Limpiar todos los datos
   async clear(): Promise<void> {
     await this._storage?.clear();
-    console.log('🧹 Storage limpiado');
+    console.log(' Storage limpiado');
   }
 
   // Verificar si existe una clave

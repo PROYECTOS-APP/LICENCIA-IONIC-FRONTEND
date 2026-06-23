@@ -56,11 +56,11 @@ export class ForgotPasswordPage {
       await loading.dismiss();
 
       if (response && response.success) {
-        this.successMessage = response.message || '✅ Se ha enviado un enlace a tu correo';
+        this.successMessage = response.message || 'Se ha enviado un enlace a tu correo';
         this.resetToken = response.token;
         
-        console.log('✅ Token generado:', this.resetToken);
-        console.log('📧 Email:', this.email);
+        console.log(' Token generado:', this.resetToken);
+        console.log('Email:', this.email);
         
         // Mostrar alerta de éxito
         const alert = await this.alertController.create({
@@ -77,10 +77,10 @@ export class ForgotPasswordPage {
                   token: this.resetToken 
                 } 
               }).then(() => {
-                console.log('✅ Navegación a reset-password exitosa');
+                console.log(' Navegación a reset-password exitosa');
                 this.isLoading = false;
               }).catch(err => {
-                console.error('❌ Error en navegación:', err);
+                console.error(' Error en navegación:', err);
                 this.isLoading = false;
               });
             }
@@ -102,12 +102,12 @@ export class ForgotPasswordPage {
         }, 3000);
         
       } else {
-        this.errorMessage = response?.message || '❌ Error al enviar el enlace. Verifica que el email esté registrado.';
+        this.errorMessage = response?.message || ' Error al enviar el enlace. Verifica que el email esté registrado.';
         this.isLoading = false;
       }
     } catch (error: any) {
       await loading.dismiss();
-      console.error('❌ Error en forgot-password:', error);
+      console.error(' Error en forgot-password:', error);
       this.errorMessage = error?.message || 'Error de conexión. Verifica tu conexión a internet.';
       this.isLoading = false;
     }

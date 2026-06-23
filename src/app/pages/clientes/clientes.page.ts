@@ -48,7 +48,7 @@ goToCrearLicencia() {
       this.clientesUnicos = clientesSet.size;
       console.log(' Licencias cargadas:', this.licencias);
     } catch (error) {
-      console.error('❌ Error al cargar licencias:', error);
+      console.error('Error al cargar licencias:', error);
     } finally {
       this.isLoading = false;
     }
@@ -72,7 +72,7 @@ goToCrearLicencia() {
       await navigator.clipboard.writeText(code);
       console.log(' Código copiado:', code);
     } catch (error) {
-      console.error('❌ Error al copiar:', error);
+      console.error('Error al copiar:', error);
     }
   }
 

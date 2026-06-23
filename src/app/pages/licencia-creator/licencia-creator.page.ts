@@ -53,7 +53,7 @@ export class LicenciaCreatorPage implements OnInit {
 
   cambiarMoneda(moneda: string) {
     this.moneda = moneda;
-    console.log('💰 Moneda cambiada a:', moneda);
+    console.log('Moneda cambiada a:', moneda);
   }
 
   aumentarCantidad() {
@@ -72,9 +72,9 @@ export class LicenciaCreatorPage implements OnInit {
     this.isLoading = true;
     try {
       this.productos = await this.apiService.getProductos();
-      console.log('📦 Productos cargados:', this.productos.length);
+      console.log('Productos cargados:', this.productos.length);
     } catch (error) {
-      console.error('❌ Error al cargar productos:', error);
+      console.error(' Error al cargar productos:', error);
     } finally {
       this.isLoading = false;
     }
@@ -161,11 +161,11 @@ export class LicenciaCreatorPage implements OnInit {
 
   selectProducto(producto: any) {
     this.productoSeleccionado = producto;
-    console.log('✅ Producto seleccionado:', producto.nombre);
+    console.log('Producto seleccionado:', producto.nombre);
   }
 
   async generarLicencia() {
-    console.log('🎫 Generando licencia...');
+    console.log('Generando licencia...');
     
     if (!this.productoSeleccionado) {
       await this.showError('Selecciona un producto');
@@ -205,31 +205,31 @@ export class LicenciaCreatorPage implements OnInit {
       notas: this.notas || ""
     };
 
-    console.log('📤 Enviando al backend:', licenciaData);
+    console.log('Enviando al backend:', licenciaData);
 
     try {
       const result = await this.apiService.crearLicencia(licenciaData);
-      console.log('📥 Respuesta del backend:', result);
+      console.log('Respuesta del backend:', result);
       
       await loading.dismiss();
       
       if (result.success) {
-        console.log('✅ Licencia creada, navegando a resultado');
+        console.log('Licencia creada, navegando a resultado');
         // Navegar a resultado con los datos
         this.router.navigateByUrl('/resultado', { 
           replaceUrl: true,
           state: { licenciaData: result.data.licencia } 
         }).then(() => {
-          console.log('✅ Navegación a resultado exitosa');
+          console.log('Navegación a resultado exitosa');
         }).catch(err => {
-          console.error('❌ Error navegando a resultado:', err);
+          console.error(' Error navegando a resultado:', err);
         });
       } else {
         await this.showError(result.message || 'Error al generar licencia');
       }
     } catch (error) {
       await loading.dismiss();
-      console.error('❌ Error:', error);
+      console.error('Error:', error);
       await this.showError('Error de conexión con el servidor');
     }
   }

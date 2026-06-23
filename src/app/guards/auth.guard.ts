@@ -9,11 +9,11 @@ export class AuthGuard {
     const user = localStorage.getItem('user');
     
     if (user) {
-      console.log('✅ AuthGuard: Usuario autenticado');
+      console.log(' AuthGuard: Usuario autenticado');
       return true;
     }
     
-    console.log('❌ AuthGuard: No autenticado, redirigiendo a login');
+    console.log(' AuthGuard: No autenticado, redirigiendo a login');
     // Reemplazar el historial para que no se pueda volver a la página anterior
     this.router.navigateByUrl('/login', { replaceUrl: true });
     return false;

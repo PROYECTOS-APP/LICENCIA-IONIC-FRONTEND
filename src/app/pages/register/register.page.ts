@@ -93,14 +93,14 @@ export class RegisterPage {
       await loading.dismiss();
 
       if (result && result.success) {
-        console.log('✅ Usuario registrado exitosamente');
+        console.log('Usuario registrado exitosamente');
         // Usar navigateByUrl con replaceUrl
         this.router.navigateByUrl('/home', { replaceUrl: true })
           .then(() => {
-            console.log('✅ Navegación a home exitosa');
+            console.log('Navegación a home exitosa');
           })
           .catch(err => {
-            console.error('❌ Error en navegación:', err);
+            console.error('Error en navegación:', err);
           });
       } else {
         this.errorMessage = result?.message || 'El email ya está registrado';
@@ -108,7 +108,7 @@ export class RegisterPage {
       }
     } catch (error: any) {
       await loading.dismiss();
-      console.error('❌ Error en registro:', error);
+      console.error('Error en registro:', error);
       this.errorMessage = error?.message || 'Error de conexión';
       this.isLoading = false;
     }

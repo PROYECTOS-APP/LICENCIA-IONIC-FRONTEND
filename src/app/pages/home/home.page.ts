@@ -38,11 +38,11 @@ export class HomePage implements OnInit {
     private router: Router,
     private menuCtrl: MenuController
   ) {
-    console.log('🏠 HomePage constructor');
+    console.log(' HomePage constructor');
   }
 
   async ngOnInit() {
-    console.log('🔄 HomePage ngOnInit');
+    console.log(' HomePage ngOnInit');
     this.user = this.authService.getCurrentUser();
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 60000);
@@ -50,7 +50,7 @@ export class HomePage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    console.log('📱 HomePage ionViewWillEnter');
+    console.log(' HomePage ionViewWillEnter');
     await this.cargarDatos();
   }
 
@@ -64,23 +64,23 @@ export class HomePage implements OnInit {
   }
 
   async navigateAndClose(page: string) {
-    console.log('🚀 Navegando a:', page);
+    console.log(' Navegando a:', page);
     await this.menuCtrl.close();
     
     // Usar setTimeout para asegurar que el menú se cierre
     setTimeout(() => {
       this.router.navigateByUrl(`/${page}`, { replaceUrl: true })
         .then(success => {
-          console.log(`✅ Navegación a ${page}:`, success);
+          console.log(` Navegación a ${page}:`, success);
         })
         .catch(err => {
-          console.error(`❌ Error navegando a ${page}:`, err);
+          console.error(` Error navegando a ${page}:`, err);
         });
     }, 200);
   }
 
   async logoutAndClose() {
-    console.log('🚪 Cerrando sesión');
+    console.log(' Cerrando sesión');
     await this.menuCtrl.close();
     
     setTimeout(() => {
@@ -91,10 +91,10 @@ export class HomePage implements OnInit {
 
   // ============ NAVEGACIÓN ============
   navigateTo(page: string) {
-    console.log('🎯 Navegando a:', page);
+    console.log(' Navegando a:', page);
     
     if (!page) {
-      console.error('❌ Página no especificada');
+      console.error(' Página no especificada');
       return;
     }
 
@@ -102,13 +102,13 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl(`/${page}`, { replaceUrl: true })
       .then(success => {
         if (success) {
-          console.log(`✅ Navegación exitosa a ${page}`);
+          console.log(` Navegación exitosa a ${page}`);
         } else {
-          console.error(`❌ Falló la navegación a ${page}`);
+          console.error(` Falló la navegación a ${page}`);
         }
       })
       .catch(err => {
-        console.error(`❌ Error navegando a ${page}:`, err);
+        console.error(` Error navegando a ${page}:`, err);
       });
   }
 
@@ -132,7 +132,7 @@ export class HomePage implements OnInit {
         this.ultimasLicencias = [];
       }
     } catch (error) {
-      console.error('❌ Error al cargar datos:', error);
+      console.error(' Error al cargar datos:', error);
     } finally {
       this.isLoading = false;
     }

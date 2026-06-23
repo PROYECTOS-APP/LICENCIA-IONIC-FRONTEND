@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   constructor(private router: Router) {
-    console.log('🚀 AppComponent iniciado');
+    console.log(' AppComponent iniciado');
   }
 
   ngOnInit() {
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     
     if (user) {
       // Si hay usuario, ir al home
-      console.log('✅ Sesión encontrada, redirigiendo a home');
+      console.log(' Sesión encontrada, redirigiendo a home');
       this.router.navigateByUrl('/home', { replaceUrl: true });
     } else {
       // Si no hay usuario, ir al login
