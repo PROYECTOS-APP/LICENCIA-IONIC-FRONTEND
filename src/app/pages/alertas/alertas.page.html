@@ -77,7 +77,9 @@
           [(ngModel)]="fechaExpiracion" 
           presentation="date" 
           class="custom-datetime"
-          [min]="fechaMinima">
+          [min]="fechaMinima"
+          color="light"
+        >
           <span slot="title">Fecha de expiración</span>
         </ion-datetime>
       </div>
@@ -149,8 +151,11 @@
 
     <!-- Mensaje cuando no hay alertas -->
     <div *ngIf="!isLoading && alertas.length === 0" class="empty-alertas">
-      <div class="empty-icon-container">
-        <ion-icon name="notifications-off-outline" class="empty-icon"></ion-icon>
+      <!-- Logo pequeño en marco bonito -->
+      <div class="logo-frame">
+        <div class="logo-circle-small">
+          <img src="assets/icon/logo.png" alt="Logo" class="logo-small">
+        </div>
       </div>
       <h3>No hay alertas activas</h3>
       <p>Las alertas te ayudarán a mantenerte informado sobre eventos importantes como licencias por vencer, nuevos clientes, etc.</p>

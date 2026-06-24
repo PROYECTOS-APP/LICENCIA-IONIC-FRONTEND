@@ -26,27 +26,36 @@
   font-size: 13px;
 }
 
-// Header
+// Header con logo circular transparente
 .stats-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.header-icon-container {
-  width: 64px;
-  height: 64px;
+.logo-circle {
+  width: 60px;
+  height: 60px;
   margin: 0 auto 12px;
-  background: linear-gradient(135deg, rgba(255, 107, 0, 0.2), rgba(224, 95, 0, 0.1));
-  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 107, 0, 0.3);
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
 }
 
-.header-icon {
-  font-size: 32px;
-  color: #FF6B00;
+.logo-circle:hover {
+  background: rgba(255, 107, 0, 0.08);
+  border-color: rgba(255, 107, 0, 0.4);
+  transform: scale(1.05);
+}
+
+.logo-icon-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .stats-header h1 {
@@ -317,13 +326,14 @@
     font-size: 18px;
   }
   
-  .header-icon-container {
-    width: 52px;
-    height: 52px;
+  .logo-circle {
+    width: 50px;
+    height: 50px;
   }
   
-  .header-icon {
-    font-size: 26px;
+  .logo-icon-image {
+    width: 26px;
+    height: 26px;
   }
   
   .stats-header h1 {

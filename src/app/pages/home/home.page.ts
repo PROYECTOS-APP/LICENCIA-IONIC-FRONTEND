@@ -22,15 +22,19 @@ export class HomePage implements OnInit {
     licencias: 0,
     clientes: 0,
     alertas: 0,
-    ingresos: 0,
+    ingresosUSD: 0,
+    ingresosPEN: 0,
     porcentajeLicencias: 0,
     porcentajeClientes: 0,
     porcentajeAlertas: 0,
-    porcentajeIngresos: 0
+    porcentajeIngresosUSD: 0,
+    porcentajeIngresosPEN: 0
   };
 
   ultimasLicencias: any[] = [];
   alertasRecientes: any[] = [];
+
+  private USD_TO_PEN = 3.80;
 
   constructor(
     private authService: AuthService,
@@ -38,11 +42,11 @@ export class HomePage implements OnInit {
     private router: Router,
     private menuCtrl: MenuController
   ) {
-    console.log(' HomePage constructor');
+    console.log('HomePage constructor');
   }
 
   async ngOnInit() {
-    console.log(' HomePage ngOnInit');
+    console.log('HomePage ngOnInit');
     this.user = this.authService.getCurrentUser();
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 60000);
@@ -50,11 +54,11 @@ export class HomePage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    console.log(' HomePage ionViewWillEnter');
+    console.log('HomePage ionViewWillEnter');
     await this.cargarDatos();
   }
 
-  // ============ MENÚ ============
+  // ============ MENU ============
   openMenu() {
     this.menuCtrl.open();
   }
@@ -67,14 +71,13 @@ export class HomePage implements OnInit {
     console.log(' Navegando a:', page);
     await this.menuCtrl.close();
     
-    // Usar setTimeout para asegurar que el menú se cierre
     setTimeout(() => {
       this.router.navigateByUrl(`/${page}`, { replaceUrl: true })
         .then(success => {
-          console.log(` Navegación a ${page}:`, success);
+          console.log(`Navegación a ${page}:`, success);
         })
         .catch(err => {
-          console.error(` Error navegando a ${page}:`, err);
+          console.error(`Error navegando a ${page}:`, err);
         });
     }, 200);
   }
@@ -98,13 +101,12 @@ export class HomePage implements OnInit {
       return;
     }
 
-    // Navegar con replaceUrl para evitar historial
     this.router.navigateByUrl(`/${page}`, { replaceUrl: true })
       .then(success => {
         if (success) {
           console.log(` Navegación exitosa a ${page}`);
         } else {
-          console.error(` Falló la navegación a ${page}`);
+          console.error(`Falló la navegación a ${page}`);
         }
       })
       .catch(err => {
@@ -115,9 +117,15 @@ export class HomePage implements OnInit {
   // ============ DATOS ============
   async cargarDatos() {
     this.isLoading = true;
+    console.log(' Cargando datos...');
+    
     try {
       const licencias = await this.apiService.getMisLicencias();
+      console.log(' Licencias obtenidas:', licencias?.length || 0);
+      console.log(' Detalle licencias:', licencias);
+      
       const alertas = await this.apiService.getMisAlertas();
+      console.log('Alertas obtenidas:', alertas?.length || 0);
       
       this.alertasRecientes = this.formatearAlertas(alertas);
       
@@ -125,22 +133,29 @@ export class HomePage implements OnInit {
         this.calcularEstadisticas(licencias);
         this.ultimasLicencias = this.getUltimasLicencias(licencias, 3);
         this.stats.alertas = this.alertasRecientes.length;
+        console.log(' Estadísticas calculadas:', this.stats);
       } else {
+        console.log(' No hay licencias, usando valores por defecto');
         this.stats.licencias = 0;
         this.stats.clientes = 0;
-        this.stats.ingresos = 0;
+        this.stats.ingresosUSD = 0;
+        this.stats.ingresosPEN = 0;
         this.ultimasLicencias = [];
       }
     } catch (error) {
-      console.error(' Error al cargar datos:', error);
+      console.error('Error al cargar datos:', error);
     } finally {
       this.isLoading = false;
+      console.log('Carga de datos completada');
     }
   }
 
   // ============ UTILIDADES ============
   formatearAlertas(alertas: any[]): any[] {
-    if (!alertas || alertas.length === 0) return [];
+    if (!alertas || alertas.length === 0) {
+      console.log(' No hay alertas para formatear');
+      return [];
+    }
     
     return alertas.map(alerta => {
       let tipo = 'info';
@@ -176,29 +191,59 @@ export class HomePage implements OnInit {
   }
 
   calcularEstadisticas(licencias: any[]) {
+    console.log(' Calculando estadísticas...');
+    
     const totalLicencias = licencias.length;
     const clientesUnicos = new Set<string>();
+    let totalIngresosUSD = 0;
+    let totalIngresosPEN = 0;
+    
     licencias.forEach(lic => {
-      if (lic.cliente) clientesUnicos.add(lic.cliente);
+      if (lic.cliente) {
+        clientesUnicos.add(lic.cliente);
+      }
+      
+      // Sumar según la moneda de la licencia
+      if (lic.moneda === 'PEN') {
+        // Si es PEN, sumar a ingresosPEN y también convertir a USD para el total
+        const precioPEN = lic.precioTotalPEN || 0;
+        totalIngresosPEN += precioPEN;
+        // También sumar el equivalente en USD para el total general
+        totalIngresosUSD += precioPEN / this.USD_TO_PEN;
+      } else {
+        // Si es USD (o cualquier otro), sumar a ingresosUSD
+        const precioUSD = lic.precioTotalUSD || 0;
+        totalIngresosUSD += precioUSD;
+        // También sumar el equivalente en PEN
+        totalIngresosPEN += precioUSD * this.USD_TO_PEN;
+      }
+      
+      console.log(` Licencia: ${lic.producto} - Moneda: ${lic.moneda} - USD: ${lic.precioTotalUSD} - PEN: ${lic.precioTotalPEN}`);
     });
-    const totalIngresos = licencias.reduce((sum, lic) => sum + (lic.precioTotalUSD || 0), 0);
     
     this.stats = {
       licencias: totalLicencias,
       clientes: clientesUnicos.size,
       alertas: this.alertasRecientes.length,
-      ingresos: Math.round(totalIngresos),
+      ingresosUSD: Math.round(totalIngresosUSD),
+      ingresosPEN: Math.round(totalIngresosPEN),
       porcentajeLicencias: Math.min(100, Math.round((totalLicencias / 50) * 100)),
       porcentajeClientes: Math.min(100, Math.round((clientesUnicos.size / 50) * 100)),
       porcentajeAlertas: Math.min(100, Math.round((this.alertasRecientes.length / 20) * 100)),
-      porcentajeIngresos: Math.min(100, Math.round((totalIngresos / 100000) * 100))
+      porcentajeIngresosUSD: Math.min(100, Math.round((totalIngresosUSD / 100000) * 100)),
+      porcentajeIngresosPEN: Math.min(100, Math.round((totalIngresosPEN / 380000) * 100))
     };
+    
+    console.log(' Estadísticas finales:', this.stats);
   }
 
   getUltimasLicencias(licencias: any[], cantidad: number): any[] {
+    console.log('Obteniendo últimas licencias...');
+    
     const ordenadas = [...licencias].sort((a, b) => 
       new Date(b.fechaCreacion).getTime() - new Date(a.fechaCreacion).getTime()
     );
+    
     return ordenadas.slice(0, cantidad).map(lic => ({
       codigo: lic.codigoLicencia,
       producto: lic.producto,
@@ -216,10 +261,14 @@ export class HomePage implements OnInit {
   updateDateTime() {
     const now = new Date();
     this.currentDate = now.toLocaleDateString('es-ES', { 
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
     });
     this.currentTime = now.toLocaleTimeString('es-ES', { 
-      hour: '2-digit', minute: '2-digit' 
+      hour: '2-digit', 
+      minute: '2-digit' 
     });
   }
 
@@ -233,5 +282,23 @@ export class HomePage implements OnInit {
   async logout() {
     await this.authService.logout();
     this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
+  formatCurrencyUSD(value: number): string {
+    return new Intl.NumberFormat('es-PE', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
+  }
+
+  formatCurrencyPEN(value: number): string {
+    return new Intl.NumberFormat('es-PE', {
+      style: 'currency',
+      currency: 'PEN',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
   }
 }

@@ -6,7 +6,7 @@
 
 .resultado-container {
   padding: 12px;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -169,6 +169,7 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 16px;
+  padding-bottom: 20px;
 }
 
 .action-buttons ion-button {
@@ -190,9 +191,9 @@
 }
 
 .share-section {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 12px;
+  padding: 14px 12px;
   margin: 4px 0;
 }
 
@@ -200,7 +201,7 @@
   color: white;
   font-size: 14px;
   font-weight: 600;
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   text-align: center;
 }
 
@@ -212,9 +213,11 @@
 
 .share-buttons ion-button {
   --border-radius: 10px;
-  height: 40px;
+  height: 42px;
   font-size: 12px;
   font-weight: 500;
+  --color: #ffffff;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .whatsapp-btn {
@@ -248,6 +251,8 @@
   height: 50px;
   font-size: 14px;
   font-weight: 700;
+  --color: #ffffff;
+  --box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
 }
 
 // Responsive
@@ -256,10 +261,16 @@
     max-width: 700px;
     margin: 0 auto;
     padding: 20px;
+    padding-bottom: 100px;
   }
   
   .share-buttons {
     grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .share-buttons ion-button {
+    height: 46px;
+    font-size: 13px;
   }
 }
 
@@ -272,6 +283,7 @@
 @media (max-width: 480px) {
   .resultado-container {
     padding: 8px;
+    padding-bottom: 100px;
   }
   
   .success-card {
@@ -295,17 +307,40 @@
   }
   
   .share-buttons {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   
   .action-buttons ion-button {
     height: 42px;
     font-size: 12px;
   }
+  
+  .new-button {
+    height: 44px;
+    font-size: 13px;
+  }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .share-buttons {
     grid-template-columns: 1fr;
+  }
+  
+  .share-section {
+    padding: 10px 8px;
+  }
+  
+  .share-buttons ion-button {
+    height: 38px;
+    font-size: 11px;
+  }
+  
+  .action-buttons ion-button {
+    height: 38px;
+    font-size: 11px;
+  }
+  
+  .resultado-container {
+    padding-bottom: 80px;
   }
 }

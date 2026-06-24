@@ -22,10 +22,10 @@
   </div>
 
   <div *ngIf="!isLoading" class="stats-container">
-    <!-- Header -->
+    <!-- Header con logo -->
     <div class="stats-header">
-      <div class="header-icon-container">
-        <ion-icon name="bar-chart-outline" class="header-icon"></ion-icon>
+      <div class="logo-circle">
+        <img src="assets/icon/logo.png" alt="Logo" class="logo-icon-image">
       </div>
       <h1>Panel de Estadísticas</h1>
       <p>Resumen general de tu negocio</p>
@@ -34,8 +34,17 @@
     <!-- Tarjeta de resumen principal -->
     <div class="summary-card">
       <div class="summary-item">
-        <span class="summary-label">Total Ingresos</span>
-        <span class="summary-value">{{ formatCurrency(stats.totalIngresos) }}</span>
+        <span class="summary-label">Total Ingresos USD</span>
+        <span class="summary-value">{{ formatCurrency(stats.totalIngresosUSD) }}</span>
+        <span class="summary-trend positive">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          +12%
+        </span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="summary-label">Total Ingresos PEN</span>
+        <span class="summary-value">{{ formatCurrencyPEN(stats.totalIngresosPEN) }}</span>
         <span class="summary-trend positive">
           <ion-icon name="trending-up-outline"></ion-icon>
           +12%
@@ -107,38 +116,50 @@
       </div>
     </div>
 
-    <!-- Sección de ingresos -->
+    <!-- Sección de ingresos separados -->
     <div class="ingresos-section">
-      <h3>
-        <ion-icon name="cash-outline"></ion-icon>
-        Resumen de Ingresos
-      </h3>
-      <div class="ingresos-grid">
-        <div class="ingreso-card">
-          <div class="ingreso-icon">
-            <ion-icon name="calendar-outline"></ion-icon>
-          </div>
-          <div class="ingreso-info">
+      <h3>Resumen de Ingresos</h3>
+      
+      <!-- Ingresos en Dólares -->
+      <div class="ingresos-card usd-card">
+        <div class="ingresos-header">
+          <ion-icon name="logo-usd"></ion-icon>
+          <span>Ingresos en Dólares (USD)</span>
+        </div>
+        <div class="ingresos-grid">
+          <div class="ingreso-item">
             <span class="ingreso-label">Este Mes</span>
-            <span class="ingreso-value">{{ formatCurrency(stats.ingresosMensuales) }}</span>
+            <span class="ingreso-value">{{ formatCurrency(stats.ingresosMensualesUSD) }}</span>
           </div>
-        </div>
-        <div class="ingreso-card">
-          <div class="ingreso-icon">
-            <ion-icon name="trending-up-outline"></ion-icon>
-          </div>
-          <div class="ingreso-info">
+          <div class="ingreso-item">
             <span class="ingreso-label">Este Año</span>
-            <span class="ingreso-value">{{ formatCurrency(stats.ingresosAnuales) }}</span>
+            <span class="ingreso-value">{{ formatCurrency(stats.ingresosAnualesUSD) }}</span>
+          </div>
+          <div class="ingreso-item">
+            <span class="ingreso-label">Total</span>
+            <span class="ingreso-value total">{{ formatCurrency(stats.totalIngresosUSD) }}</span>
           </div>
         </div>
-        <div class="ingreso-card">
-          <div class="ingreso-icon">
-            <ion-icon name="stats-chart-outline"></ion-icon>
+      </div>
+
+      <!-- Ingresos en Soles -->
+      <div class="ingresos-card pen-card">
+        <div class="ingresos-header">
+          <ion-icon name="cash-outline"></ion-icon>
+          <span>Ingresos en Soles (PEN)</span>
+        </div>
+        <div class="ingresos-grid">
+          <div class="ingreso-item">
+            <span class="ingreso-label">Este Mes</span>
+            <span class="ingreso-value">{{ formatCurrencyPEN(stats.ingresosMensualesPEN) }}</span>
           </div>
-          <div class="ingreso-info">
-            <span class="ingreso-label">Promedio Mensual</span>
-            <span class="ingreso-value">{{ formatCurrency(stats.ingresosMensuales > 0 ? stats.ingresosAnuales / 12 : 0) }}</span>
+          <div class="ingreso-item">
+            <span class="ingreso-label">Este Año</span>
+            <span class="ingreso-value">{{ formatCurrencyPEN(stats.ingresosAnualesPEN) }}</span>
+          </div>
+          <div class="ingreso-item">
+            <span class="ingreso-label">Total</span>
+            <span class="ingreso-value total">{{ formatCurrencyPEN(stats.totalIngresosPEN) }}</span>
           </div>
         </div>
       </div>

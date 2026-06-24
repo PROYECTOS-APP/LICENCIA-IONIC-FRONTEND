@@ -1,4 +1,4 @@
-<!-- ====== HEADER CON MENÚ ====== -->
+<!-- ====== HEADER CON MENU ====== -->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -8,11 +8,11 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- ====== MENÚ LATERAL ====== -->
+<!-- ====== MENU LATERAL ====== -->
 <ion-menu side="start" menuId="first" contentId="main-content" type="overlay">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Menú</ion-title>
+      <ion-title>Menu</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="closeMenu()">
           <ion-icon name="close-outline"></ion-icon>
@@ -43,11 +43,11 @@
       </ion-item>
       <ion-item (click)="navigateAndClose('estadisticas')" detail="false" button>
         <ion-icon name="bar-chart-outline" slot="start" color="primary"></ion-icon>
-        <ion-label>Estadísticas</ion-label>
+        <ion-label>Estadisticas</ion-label>
       </ion-item>
       <ion-item (click)="logoutAndClose()" detail="false" button>
         <ion-icon name="exit-outline" slot="start" color="danger"></ion-icon>
-        <ion-label>Cerrar Sesión</ion-label>
+        <ion-label>Cerrar Sesion</ion-label>
       </ion-item>
     </ion-list>
   </ion-content>
@@ -76,7 +76,7 @@
         <div class="welcome-text">
           <h2>{{ getSaludo() }},</h2>
           <h1>{{ user?.nombre || 'Usuario' }}!</h1>
-          <p>¿Qué deseas hacer hoy?</p>
+          <p>¿Que deseas hacer hoy?</p>
         </div>
       </div>
     </div>
@@ -125,22 +125,22 @@
 
         <div class="stat-card" (click)="navigateTo('estadisticas')">
           <div class="stat-icon success-bg">
-            <ion-icon name="cash-outline"></ion-icon>
+            <ion-icon name="stats-chart-outline"></ion-icon>
           </div>
           <div class="stat-content">
-            <h3>${{ stats.ingresos }}</h3>
-            <p>Ingresos</p>
+            <h3>{{ stats.licencias }}</h3>
+            <p>Total Licencias</p>
             <div class="progress-bar">
-              <div class="progress" [style.width.%]="stats.porcentajeIngresos"></div>
+              <div class="progress" [style.width.%]="stats.porcentajeLicencias"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Acciones rápidas -->
+    <!-- Acciones rapidas -->
     <div class="actions-section">
-      <h3>Acciones Rápidas</h3>
+      <h3>Acciones Rapidas</h3>
       <div class="actions-grid">
         <div class="action-card" (click)="navigateTo('crear-licencia')">
           <div class="action-icon primary-gradient">
@@ -171,17 +171,17 @@
             <ion-icon name="stats-chart-outline"></ion-icon>
           </div>
           <h4>Ver Reportes</h4>
-          <p>Estadísticas</p>
+          <p>Estadisticas</p>
         </div>
       </div>
     </div>
 
-    <!-- Últimas licencias y alertas -->
+    <!-- Ultimas licencias y alertas -->
     <div class="info-section">
       <div class="info-card">
         <div class="info-header">
           <ion-icon name="document-text-outline"></ion-icon>
-          <h3>Últimas Licencias</h3>
+          <h3>Ultimas Licencias</h3>
           <ion-button fill="clear" size="small" (click)="navigateTo('clientes')">Ver todas</ion-button>
         </div>
         <div class="licencias-list">

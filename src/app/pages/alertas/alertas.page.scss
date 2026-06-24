@@ -5,8 +5,8 @@
 }
 
 .alertas-container {
-  padding: 12px;
-  padding-bottom: 80px;
+  padding: 16px;
+  padding-bottom: 100px;
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -15,8 +15,8 @@
 .stats-header {
   background: linear-gradient(135deg, rgba(255, 107, 0, 0.15), rgba(224, 95, 0, 0.05));
   border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -35,63 +35,69 @@
 }
 
 .stat-item ion-icon {
-  font-size: 20px;
+  font-size: 24px;
   color: #FF6B00;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .stat-number {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
-  color: white;
+  color: #FFFFFF;
 }
 
 .stat-label {
-  font-size: 10px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
 }
 
 .stat-divider {
   width: 1px;
-  height: 35px;
+  height: 40px;
   background: rgba(255, 255, 255, 0.2);
 }
 
-// Formulario
+// ============================================
+// FORMULARIO
+// ============================================
 .form-card {
   background: rgba(26, 31, 61, 0.95);
   border-radius: 20px;
-  padding: 16px;
+  padding: 20px;
   margin-bottom: 20px;
   border: 1px solid rgba(255, 107, 0, 0.2);
 }
 
 .form-card h3 {
-  color: white;
-  font-size: 16px;
-  margin: 0 0 14px 0;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .title-icon {
-  font-size: 20px;
+  font-size: 24px;
   color: #FF6B00;
 }
 
+// ============================================
+// INPUTS - TODAS LAS LETRAS EN BLANCO
+// ============================================
 .input-group {
   position: relative;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   width: 100%;
 }
 
 .input-icon {
   position: absolute;
-  left: 12px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 20px;
   color: #FF6B00;
   z-index: 2;
 }
@@ -105,71 +111,244 @@
 .custom-select,
 .custom-datetime {
   --background: #1A1F3D;
-  --border-radius: 12px;
-  --color: white;
-  --padding-start: 44px;
+  --border-radius: 14px;
+  --color: #FFFFFF !important;
+  --padding-start: 48px;
   --highlight-color-focused: #FF6B00;
   --placeholder-color: rgba(255, 255, 255, 0.5);
+  --placeholder-opacity: 1;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .custom-select {
-  --padding-start: 44px;
-  min-height: 48px;
+  --padding-start: 48px;
+  min-height: 50px;
 }
 
 .custom-textarea {
   --background: #1A1F3D;
-  --border-radius: 12px;
-  --color: white;
-  --padding-start: 44px;
+  --border-radius: 14px;
+  --color: #FFFFFF !important;
+  --padding-start: 48px;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// ============================================
+// CALENDARIO - FONDO MÁS CLARO Y LETRAS BLANCAS
+// ============================================
+.custom-datetime {
+  --background: #2A2F4A !important;
+  --border-radius: 14px;
+  --padding-start: 48px;
+  --color: #FFFFFF !important;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  --ion-color-primary: #FF6B00;
+  --ion-color-primary-shade: #E05F00;
+  --ion-color-primary-tint: #FF8233;
+}
+
+.custom-datetime .datetime-text {
+  color: #FFFFFF !important;
+  font-weight: 500;
+}
+
+.custom-datetime .datetime-placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+ion-datetime {
+  --background: #2A2F4A !important;
+  --background-rgb: 42, 47, 74 !important;
+  --wheel-highlight-color: #FF6B00 !important;
+  --wheel-fade-background: linear-gradient(90deg, transparent, #2A2F4A, transparent) !important;
+  --color: #FFFFFF !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+ion-datetime .datetime-ready {
+  color: #FFFFFF !important;
+}
+
+ion-datetime .datetime-year,
+ion-datetime .datetime-month,
+ion-datetime .datetime-day,
+ion-datetime .datetime-hour,
+ion-datetime .datetime-minute,
+ion-datetime .datetime-ampm {
+  color: #FFFFFF !important;
+}
+
+ion-datetime .datetime-calendar-day {
+  color: #FFFFFF !important;
+  background: transparent !important;
+  border-radius: 50% !important;
+}
+
+ion-datetime .datetime-calendar-day:hover {
+  background: rgba(255, 107, 0, 0.2) !important;
+}
+
+ion-datetime .datetime-calendar-day.today {
+  color: #FF6B00 !important;
+  font-weight: 700;
+  background: rgba(255, 107, 0, 0.2) !important;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 107, 0, 0.3);
+}
+
+ion-datetime .datetime-calendar-day.selected {
+  background: #FF6B00 !important;
+  color: #FFFFFF !important;
+  border-radius: 50%;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+}
+
+ion-datetime .datetime-calendar-day-label {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+ion-datetime .datetime-calendar-month-label {
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+ion-datetime .datetime-action-buttons {
+  --color: #FF6B00 !important;
+}
+
+ion-datetime .datetime-action-button {
+  color: #FF6B00 !important;
+  font-weight: 700;
+}
+
+ion-datetime .datetime-header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+ion-datetime .datetime-body {
+  background: transparent !important;
+}
+
+ion-datetime .datetime-footer {
+  background: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+ion-datetime .datetime-picker {
+  background: transparent !important;
+}
+
+ion-datetime .datetime-picker-item {
+  color: #FFFFFF !important;
+  font-size: 18px;
+}
+
+ion-datetime .datetime-picker-item.active {
+  color: #FF6B00 !important;
+  font-weight: 700;
+}
+
+ion-datetime .datetime-arrow {
+  color: #FF6B00 !important;
+}
+
+ion-datetime .datetime-arrow-button {
+  color: #FF6B00 !important;
+}
+
+ion-datetime .calendar-next-prev {
+  color: #FF6B00 !important;
 }
 
 .select-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  color: #FFFFFF;
 }
 
+.select-option ion-icon {
+  font-size: 18px;
+  color: #FF6B00;
+}
+
+.select-option span {
+  color: #FFFFFF;
+}
+
+// ============================================
+// BOTÓN GENERAR
+// ============================================
 .generate-button {
-  --background: linear-gradient(135deg, #FF6B00, #E05F00);
-  --border-radius: 12px;
-  margin-top: 8px;
-  height: 48px;
-  font-size: 14px;
-  font-weight: 600;
+  --background: linear-gradient(135deg, #FF6B00, #E05F00) !important;
+  --background-activated: linear-gradient(135deg, #E05F00, #CC5500) !important;
+  --border-radius: 14px !important;
+  --box-shadow: 0 6px 25px rgba(255, 107, 0, 0.3) !important;
+  height: 52px;
+  font-size: 15px;
+  font-weight: 700;
   width: 100%;
+  --color: #FFFFFF !important;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-// Lista de alertas
+.generate-button:disabled {
+  --background: rgba(255, 255, 255, 0.1) !important;
+  --box-shadow: none !important;
+  opacity: 0.5;
+}
+
+.generate-button ion-icon {
+  color: #FFFFFF !important;
+  margin-right: 8px;
+}
+
+// ============================================
+// LISTA DE ALERTAS
+// ============================================
 .alertas-list {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
   gap: 8px;
 }
 
 .list-header h3 {
-  color: white;
-  font-size: 15px;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
   margin: 0;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.clear-all-btn {
-  --color: #FF6B00;
-  font-size: 11px;
+.list-header h3 ion-icon {
+  color: #FF6B00;
 }
 
+.clear-all-btn {
+  --color: #FF6B00 !important;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+// ============================================
+// TARJETAS DE ALERTAS
+// ============================================
 .alerta-card {
   background: rgba(26, 31, 61, 0.95);
   border-radius: 16px;
@@ -183,7 +362,6 @@
   transform: scale(0.98);
 }
 
-// Prioridades
 .alerta-card.priority-urgente {
   border-left: 4px solid #ef4444;
 }
@@ -200,15 +378,14 @@
 .alerta-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px;
+  gap: 12px;
+  padding: 14px 16px;
   background: rgba(0, 0, 0, 0.2);
-  flex-wrap: wrap;
 }
 
 .alerta-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -217,23 +394,23 @@
 }
 
 .alerta-icon ion-icon {
-  font-size: 20px;
-  color: white;
+  font-size: 22px;
+  color: #FFFFFF;
 }
 
 .alerta-info {
   flex: 1;
-  min-width: 120px;
+  min-width: 100px;
 }
 
 .alerta-titulo {
-  color: white;
-  font-size: 14px;
+  color: #FFFFFF;
+  font-size: 15px;
   font-weight: 600;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 4px;
 }
 
@@ -241,19 +418,23 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 8px;
-  font-size: 9px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 20px;
+  color: #FFFFFF !important;
 }
 
 .prioridad-badge ion-icon {
-  font-size: 10px;
+  font-size: 12px;
   margin: 0;
+  color: #FFFFFF !important;
 }
 
 .alerta-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .tipo-alerta,
@@ -261,30 +442,32 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
 }
 
 .tipo-alerta ion-icon,
 .fecha-alerta ion-icon {
-  font-size: 11px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .delete-btn {
-  --color: #ef4444;
+  --color: #ef4444 !important;
+  --padding-start: 8px;
+  --padding-end: 8px;
   margin: 0;
-  height: 32px;
-  width: 32px;
+  height: 36px;
+  width: 36px;
 }
 
 .alerta-content {
-  padding: 14px;
-  padding-top: 0;
+  padding: 14px 16px;
 }
 
 .alerta-content p {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.5;
   margin: 0;
   word-wrap: break-word;
@@ -295,70 +478,101 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 10px 14px;
+  padding: 10px 16px;
   background: rgba(0, 0, 0, 0.2);
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
 }
 
 .alerta-footer ion-icon {
-  font-size: 12px;
+  font-size: 14px;
   color: #FF6B00;
 }
 
 .dias-restantes {
   margin-left: auto;
-  font-size: 9px;
-  padding: 3px 8px;
+  font-size: 10px;
+  padding: 4px 12px;
+  color: #FFFFFF !important;
 }
 
-// Empty state
+// ============================================
+// EMPTY STATE CON LOGO PEQUEÑO
+// ============================================
 .empty-alertas {
   text-align: center;
   padding: 40px 16px;
 }
 
-.empty-icon-container {
-  width: 80px;
-  height: 80px;
+.logo-frame {
+  width: 70px;
+  height: 70px;
   margin: 0 auto 16px;
-  background: rgba(255, 107, 0, 0.1);
+  background: rgba(255, 107, 0, 0.08);
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 107, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.logo-frame:hover {
+  background: rgba(255, 107, 0, 0.15);
+  border-color: rgba(255, 107, 0, 0.4);
+  transform: scale(1.05);
+}
+
+.logo-circle-small {
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.empty-icon {
-  font-size: 40px;
-  color: #FF6B00;
+.logo-small {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .empty-alertas h3 {
-  color: white;
-  font-size: 16px;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 600;
   margin: 0 0 8px;
 }
 
 .empty-alertas p {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 13px;
-  max-width: 280px;
-  margin: 0 auto 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  max-width: 300px;
+  margin: 0 auto 20px;
 }
 
 .empty-button {
-  --background: linear-gradient(135deg, #FF6B00, #E05F00);
-  --border-radius: 12px;
-  font-size: 13px;
+  --background: linear-gradient(135deg, #FF6B00, #E05F00) !important;
+  --border-radius: 14px !important;
+  --color: #FFFFFF !important;
+  font-size: 14px;
+  font-weight: 600;
+  height: 48px;
+  --box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
 }
 
-// Responsive
+// ============================================
+// RESPONSIVE
+// ============================================
 @media (min-width: 768px) {
   .alertas-container {
     max-width: 700px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px;
+  }
+  
+  .form-card {
+    padding: 24px;
   }
 }
 
@@ -370,22 +584,26 @@
 
 @media (max-width: 480px) {
   .alertas-container {
-    padding: 8px;
+    padding: 10px;
   }
   
   .form-card {
-    padding: 12px;
+    padding: 14px;
+  }
+  
+  .form-card h3 {
+    font-size: 16px;
   }
   
   .alerta-header {
     flex-wrap: wrap;
-    padding: 10px;
+    padding: 12px;
   }
   
   .delete-btn {
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 4px;
+    right: 4px;
   }
   
   .alerta-info {
@@ -393,15 +611,64 @@
   }
   
   .stats-header {
-    padding: 10px;
+    padding: 12px;
   }
   
   .stat-number {
-    font-size: 16px;
+    font-size: 18px;
+  }
+  
+  .stat-label {
+    font-size: 10px;
+  }
+  
+  .logo-frame {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .logo-small {
+    width: 28px;
+    height: 28px;
   }
 }
 
-// Animaciones
+@media (max-width: 380px) {
+  .alertas-container {
+    padding: 6px;
+  }
+  
+  .form-card {
+    padding: 10px;
+  }
+  
+  .form-card h3 {
+    font-size: 14px;
+  }
+  
+  .alerta-titulo {
+    font-size: 13px;
+  }
+  
+  .generate-button {
+    height: 44px;
+    font-size: 13px;
+  }
+  
+  .logo-frame {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .logo-small {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ============================================
+// ANIMACIONES
+// ============================================
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -416,3 +683,9 @@
 .alerta-card {
   animation: slideIn 0.3s ease-out;
 }
+
+.alerta-card:nth-child(1) { animation-delay: 0.05s; }
+.alerta-card:nth-child(2) { animation-delay: 0.1s; }
+.alerta-card:nth-child(3) { animation-delay: 0.15s; }
+.alerta-card:nth-child(4) { animation-delay: 0.2s; }
+.alerta-card:nth-child(5) { animation-delay: 0.25s; }

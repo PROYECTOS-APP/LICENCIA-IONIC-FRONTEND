@@ -1,22 +1,105 @@
+// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { BackendStatusService } from './backend-status.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private backendStatus: BackendStatusService,
+    private router: Router
+  ) {
+    console.log('AuthService inicializado');
+    console.log('API URL:', this.apiUrl);
+  }
 
   // ============================================
-  // AUTENTICACIÓN
+  // REGISTER - AGREGAR ESTE MÉTODO
   // ============================================
+  async register(nombre: string, email: string, password: string): Promise<any> {
+    console.log('AuthService.register llamado');
+    console.log('  - Nombre:', nombre);
+    console.log('  - Email:', email);
+    console.log('  - Password:', password ? '***' : 'vacío');
+    
+    if (!this.backendStatus.isBackendAvailable()) {
+      console.warn('Backend no disponible');
+      this.router.navigate(['/home'], { replaceUrl: true });
+      return { 
+        success: false, 
+        message: 'Servidor no disponible. Modo offline.' 
+      };
+    }
 
-  async login(email: string, password: string): Promise<any> {
     try {
-      console.log(' Intentando login:', email);
+      const url = `${this.apiUrl}/auth/registro`;
+      console.log('URL:', url);
       
+      const response = await firstValueFrom(
+        this.http.post<any>(url, 
+          { nombre, email, password },
+          { withCredentials: true }
+        )
+      );
+      
+      console.log('Respuesta registro:', response);
+      
+      if (response && response.success) {
+        const userData = { 
+          id: response.id,
+          nombre: response.nombre, 
+          email: response.email,
+          avatar: response.avatar || 'assets/icon/avatar-default.png'
+        };
+        localStorage.setItem('user', JSON.stringify(userData));
+        console.log('Registro exitoso, sesión guardada');
+        return { success: true, data: userData };
+      }
+      return { 
+        success: false, 
+        message: response?.mensaje || 'Error en el registro' 
+      };
+    } catch (error: any) {
+      console.error('Error en registro:', error);
+      
+      if (error.status === 0 || error.status === 504) {
+        this.backendStatus.forceCheck();
+        this.router.navigate(['/home'], { replaceUrl: true });
+        return { 
+          success: false, 
+          message: 'Servidor no disponible. Intenta más tarde.' 
+        };
+      }
+      
+      return { 
+        success: false, 
+        message: error.error?.mensaje || 'Error de conexión' 
+      };
+    }
+  }
+
+  // ============================================
+  // LOGIN
+  // ============================================
+  async login(email: string, password: string): Promise<any> {
+    console.log('Intentando login...');
+    
+    if (!this.backendStatus.isBackendAvailable()) {
+      console.log('Login: Backend no disponible');
+      this.router.navigate(['/home'], { replaceUrl: true });
+      return { 
+        success: false, 
+        message: 'Servidor no disponible. Modo offline.' 
+      };
+    }
+
+    try {
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/login`, 
           { email, password },
@@ -24,8 +107,6 @@ export class AuthService {
         )
       );
       
-      console.log(' Respuesta login:', response);
-      
       if (response && response.success) {
         const userData = { 
           id: response.id,
@@ -34,46 +115,22 @@ export class AuthService {
           avatar: response.avatar || 'assets/icon/avatar-default.png'
         };
         localStorage.setItem('user', JSON.stringify(userData));
-        console.log(' Login exitoso, sesión guardada');
+        console.log('Login exitoso');
         return { success: true, data: userData };
       }
       return { success: false, message: response?.mensaje || 'Credenciales inválidas' };
     } catch (error: any) {
-      console.error(' Error en login:', error);
-      return { 
-        success: false, 
-        message: error.error?.mensaje || 'Error de conexión' 
-      };
-    }
-  }
-
-  async register(nombre: string, email: string, password: string): Promise<any> {
-    try {
-      console.log(' Intentando registrar:', email);
+      console.error('Error en login:', error);
       
-      const response = await firstValueFrom(
-        this.http.post<any>(`${this.apiUrl}/auth/registro`, 
-          { nombre, email, password },
-          { withCredentials: true }
-        )
-      );
-      
-      console.log(' Respuesta registro:', response);
-      
-      if (response && response.success) {
-        const userData = { 
-          id: response.id,
-          nombre: response.nombre, 
-          email: response.email,
-          avatar: response.avatar || 'assets/icon/avatar-default.png'
+      if (error.status === 0 || error.status === 504) {
+        this.backendStatus.forceCheck();
+        this.router.navigate(['/home'], { replaceUrl: true });
+        return { 
+          success: false, 
+          message: 'Servidor no disponible.' 
         };
-        localStorage.setItem('user', JSON.stringify(userData));
-        console.log(' Registro exitoso');
-        return { success: true, data: userData };
       }
-      return { success: false, message: response?.mensaje || 'Error en el registro' };
-    } catch (error: any) {
-      console.error(' Error en registro:', error);
+      
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión' 
@@ -82,13 +139,20 @@ export class AuthService {
   }
 
   // ============================================
-  // RECUPERAR CONTRASEÑA
+  // FORGOT PASSWORD
   // ============================================
-
   async forgotPassword(email: string): Promise<any> {
+    console.log('AuthService.forgotPassword llamado:', email);
+    
+    if (!this.backendStatus.isBackendAvailable()) {
+      this.router.navigate(['/home'], { replaceUrl: true });
+      return { 
+        success: false, 
+        message: 'Servidor no disponible. Modo offline.' 
+      };
+    }
+
     try {
-      console.log(' Enviando solicitud de recuperación para:', email);
-      
       const response = await firstValueFrom(
         this.http.post<any>(`${this.apiUrl}/auth/forgot-password`, 
           { email },
@@ -96,7 +160,7 @@ export class AuthService {
         )
       );
       
-      console.log(' Respuesta forgot-password:', response);
+      console.log('Respuesta forgot-password:', response);
       
       if (response && response.success) {
         return { 
@@ -107,10 +171,10 @@ export class AuthService {
       }
       return { 
         success: false, 
-        message: response?.mensaje || 'Error al enviar el correo. Verifica que el email esté registrado.' 
+        message: response?.mensaje || 'Error al enviar el correo' 
       };
     } catch (error: any) {
-      console.error(' Error en forgot-password:', error);
+      console.error('Error en forgot-password:', error);
       return { 
         success: false, 
         message: error.error?.mensaje || 'Error de conexión' 
@@ -118,18 +182,35 @@ export class AuthService {
     }
   }
 
+  // ============================================
+  // RESET PASSWORD
+  // ============================================
   async resetPassword(token: string, newPassword: string): Promise<any> {
+    console.log(' AuthService.resetPassword llamado');
+    console.log('  - Token:', token);
+    console.log('  - NewPassword:', newPassword ? '***' : 'vacío');
+    
+    if (!this.backendStatus.isBackendAvailable()) {
+      console.warn('Backend no disponible');
+      this.router.navigate(['/home'], { replaceUrl: true });
+      return { 
+        success: false, 
+        message: 'Servidor no disponible. Modo offline.' 
+      };
+    }
+
     try {
-      console.log(' Restableciendo contraseña con token:', token);
+      const url = `${this.apiUrl}/auth/reset-password`;
+      console.log(' URL:', url);
       
       const response = await firstValueFrom(
-        this.http.post<any>(`${this.apiUrl}/auth/reset-password`, 
+        this.http.post<any>(url, 
           { token, newPassword },
           { withCredentials: true }
         )
       );
       
-      console.log(' Respuesta reset-password:', response);
+      console.log('Respuesta reset-password:', response);
       
       if (response && response.success) {
         return { 
@@ -139,116 +220,58 @@ export class AuthService {
       }
       return { 
         success: false, 
-        message: response?.mensaje || 'Error al restablecer la contraseña. El enlace puede haber expirado.' 
+        message: response?.mensaje || 'Error al restablecer la contraseña' 
       };
     } catch (error: any) {
-      console.error(' Error en reset-password:', error);
-      return { 
-        success: false, 
-        message: error.error?.mensaje || 'Error de conexión. Verifica tu conexión a internet.' 
-      };
-    }
-  }
-
-  // ============================================
-  // AVATAR
-  // ============================================
-
-  async uploadAvatar(file: File): Promise<any> {
-    try {
-      const formData = new FormData();
-      formData.append('avatar', file);
-
-      console.log('Subiendo avatar...');
-
-      const response = await firstValueFrom(
-        this.http.post<any>(`${this.apiUrl}/avatar/upload`, formData, {
-          withCredentials: true
-        })
-      );
-
-      console.log(' Respuesta upload-avatar:', response);
-
-      if (response.success) {
-        // Actualizar localStorage
-        const user = this.getCurrentUser();
-        if (user) {
-          user.avatar = response.avatar;
-          localStorage.setItem('user', JSON.stringify(user));
-        }
-        return response;
+      console.error('Error en reset-password:', error);
+      
+      if (error.status === 0 || error.status === 504) {
+        this.backendStatus.forceCheck();
+        return { 
+          success: false, 
+          message: 'Servidor no disponible. Intenta más tarde.' 
+        };
       }
-      return { success: false, message: response?.message || 'Error al subir avatar' };
-    } catch (error: any) {
-      console.error(' Error al subir avatar:', error);
+      
       return { 
         success: false, 
-        message: error.error?.message || 'Error de conexión' 
-      };
-    }
-  }
-
-  async deleteAvatar(): Promise<any> {
-    try {
-      console.log(' Eliminando avatar...');
-
-      const response = await firstValueFrom(
-        this.http.delete<any>(`${this.apiUrl}/avatar/delete`, {
-          withCredentials: true
-        })
-      );
-
-      console.log('Respuesta delete-avatar:', response);
-
-      if (response.success) {
-        // Actualizar localStorage
-        const user = this.getCurrentUser();
-        if (user) {
-          user.avatar = response.avatar;
-          localStorage.setItem('user', JSON.stringify(user));
-        }
-        return response;
-      }
-      return { success: false, message: response?.message || 'Error al eliminar avatar' };
-    } catch (error: any) {
-      console.error(' Error al eliminar avatar:', error);
-      return { 
-        success: false, 
-        message: error.error?.message || 'Error de conexión' 
+        message: error.error?.mensaje || 'Error de conexión' 
       };
     }
   }
 
   // ============================================
-  // SESIÓN
+  // LOGOUT
   // ============================================
-
-  async verificarSesion(): Promise<boolean> {
+  async logout(): Promise<void> {
     try {
-      const response = await firstValueFrom(
-        this.http.get<any>(`${this.apiUrl}/auth/me`, {
-          withCredentials: true
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      
+      await firstValueFrom(
+        this.http.post(`${this.apiUrl}/auth/logout`, {}, { 
+          withCredentials: true 
         })
       );
-      return response && response.success;
+      
+      console.log('Logout exitoso');
+      this.router.navigate(['/login'], { replaceUrl: true });
     } catch (error) {
-      console.error(' Error al verificar sesión:', error);
-      return false;
+      console.error('Error en logout:', error);
+      this.router.navigate(['/login'], { replaceUrl: true });
     }
   }
 
-  async checkSession(): Promise<any> {
-    try {
-      const response = await firstValueFrom(
-        this.http.get<any>(`${this.apiUrl}/auth/check-session`, {
-          withCredentials: true
-        })
-      );
-      return response;
-    } catch (error) {
-      console.error('❌ Error al verificar sesión:', error);
-      return { authenticated: false };
-    }
+  // ============================================
+  // UTILIDADES
+  // ============================================
+  getCurrentUser(): any {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('user');
   }
 
   async getCurrentUserFromServer(): Promise<any> {
@@ -271,131 +294,76 @@ export class AuthService {
       }
       return null;
     } catch (error) {
-      console.error(' Error al obtener usuario del servidor:', error);
+      console.error('Error al obtener usuario del servidor:', error);
       return null;
     }
   }
 
-  getCurrentUser(): any {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  async logout(): Promise<void> {
+  async checkSession(): Promise<any> {
     try {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      
-      await firstValueFrom(
-        this.http.post(`${this.apiUrl}/auth/logout`, {}, { 
-          withCredentials: true 
+      const response = await firstValueFrom(
+        this.http.get<any>(`${this.apiUrl}/auth/me`, {
+          withCredentials: true
         })
       );
-      
-      console.log(' Logout exitoso');
+      return response;
     } catch (error) {
-      console.error(' Error en logout:', error);
+      console.error('Error al verificar sesión:', error);
+      return { authenticated: false };
     }
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('user');
-  }
-
-  // ============================================
-  // ACTUALIZAR DATOS DEL USUARIO
-  // ============================================
-
-  updateUserData(userData: any): void {
-    if (userData) {
-      const currentUser = this.getCurrentUser();
-      if (currentUser) {
-        const updatedUser = { ...currentUser, ...userData };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-      }
-    }
-  }
-
-  updateAvatar(avatarUrl: string): void {
-    const user = this.getCurrentUser();
-    if (user) {
-      user.avatar = avatarUrl;
-      localStorage.setItem('user', JSON.stringify(user));
-    }
-  }
-
-  // ============================================
-  // VALIDACIÓN DE TOKEN Y EMAIL
-  // ============================================
-
-  async validateResetToken(token: string): Promise<any> {
+  async uploadAvatar(file: File): Promise<any> {
     try {
-      console.log(' Validando token:', token);
-      
+      const formData = new FormData();
+      formData.append('avatar', file);
+
       const response = await firstValueFrom(
-        this.http.post<any>(`${this.apiUrl}/auth/validate-token`, 
-          { token },
-          { withCredentials: true }
-        )
+        this.http.post<any>(`${this.apiUrl}/avatar/upload`, formData, {
+          withCredentials: true
+        })
       );
-      
-      console.log(' Respuesta validate-token:', response);
-      
-      if (response && response.success) {
-        return { 
-          success: true, 
-          email: response.email,
-          message: response.message || 'Token válido'
-        };
+
+      if (response.success) {
+        const user = this.getCurrentUser();
+        if (user) {
+          user.avatar = response.avatar;
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        return response;
       }
-      return { 
-        success: false, 
-        message: response?.mensaje || 'Token inválido o expirado' 
-      };
+      return { success: false, message: response?.message || 'Error al subir avatar' };
     } catch (error: any) {
-      console.error(' Error en validate-token:', error);
+      console.error('Error al subir avatar:', error);
       return { 
         success: false, 
-        message: error.error?.mensaje || 'Error de conexión' 
+        message: error.error?.message || 'Error de conexión' 
       };
     }
   }
 
-  async checkEmailExists(email: string): Promise<any> {
+  async deleteAvatar(): Promise<any> {
     try {
-      console.log(' Verificando email:', email);
-      
       const response = await firstValueFrom(
-        this.http.post<any>(`${this.apiUrl}/auth/check-email`, 
-          { email },
-          { withCredentials: true }
-        )
+        this.http.delete<any>(`${this.apiUrl}/avatar/delete`, {
+          withCredentials: true
+        })
       );
-      
-      console.log(' Respuesta check-email:', response);
-      
-      if (response && response.success) {
-        return { 
-          success: true, 
-          exists: response.exists,
-          message: response.message || 'Email verificado'
-        };
+
+      if (response.success) {
+        const user = this.getCurrentUser();
+        if (user) {
+          user.avatar = response.avatar;
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        return response;
       }
-      return { 
-        success: false, 
-        exists: false,
-        message: response?.mensaje || 'Email no encontrado' 
-      };
+      return { success: false, message: response?.message || 'Error al eliminar avatar' };
     } catch (error: any) {
-      console.error(' Error en check-email:', error);
+      console.error('Error al eliminar avatar:', error);
       return { 
         success: false, 
-        exists: false,
-        message: error.error?.mensaje || 'Error de conexión' 
+        message: error.error?.message || 'Error de conexión' 
       };
     }
   }

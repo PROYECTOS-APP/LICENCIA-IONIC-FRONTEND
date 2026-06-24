@@ -37,7 +37,7 @@
 
     <!-- Productos -->
     <div class="form-card">
-      <h3>📦 1. Selecciona un Producto</h3>
+      <h3>1. Selecciona un Producto</h3>
       <div class="productos-grid">
         <div *ngFor="let producto of productos" 
              class="producto-card" 
@@ -46,8 +46,8 @@
           <h4>{{ producto.nombre }}</h4>
           <p>{{ producto.descripcion }}</p>
           <div class="precio">
-            <span *ngIf="moneda === 'USD'">💰 ${{ producto.precioBaseUsd }} USD</span>
-            <span *ngIf="moneda === 'PEN'">💰 S/ {{ (producto.precioBaseUsd * 3.80).toFixed(2) }} PEN</span>
+            <span *ngIf="moneda === 'USD'">${{ producto.precioBaseUsd }} USD</span>
+            <span *ngIf="moneda === 'PEN'">S/ {{ (producto.precioBaseUsd * 3.80).toFixed(2) }} PEN</span>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@
 
     <!-- Configuración -->
     <div class="form-card" *ngIf="productoSeleccionado">
-      <h3>⚙️ 2. Configura la Licencia</h3>
+      <h3>2. Configura la Licencia</h3>
 
       <div class="input-group">
         <ion-icon name="time-outline" class="input-icon"></ion-icon>
@@ -71,25 +71,28 @@
           presentation="date" 
           class="custom-datetime"
           [min]="fechaMinima"
-          [max]="fechaMaxima">
-          <span slot="title">📅 Selecciona la fecha de vencimiento</span>
+          [max]="fechaMaxima"
+          color="light"
+        >
+          <span slot="title">Selecciona la fecha de vencimiento</span>
         </ion-datetime>
       </div>
 
+      <!-- Cantidad de licencias - MEJORADO -->
       <div class="cantidad-section">
         <div class="cantidad-header">
           <ion-icon name="copy-outline"></ion-icon>
           <span>Cantidad de licencias</span>
         </div>
         <div class="cantidad-control">
-          <ion-button (click)="disminuirCantidad()" [disabled]="cantidadLicencias <= 1" fill="solid" class="cantidad-btn">
+          <ion-button (click)="disminuirCantidad()" [disabled]="cantidadLicencias <= 1" class="cantidad-btn" shape="round">
             <ion-icon name="remove-outline"></ion-icon>
           </ion-button>
           <div class="cantidad-valor">
             <span class="numero">{{ cantidadLicencias }}</span>
             <span class="texto">licencias</span>
           </div>
-          <ion-button (click)="aumentarCantidad()" [disabled]="cantidadLicencias >= 100" fill="solid" class="cantidad-btn">
+          <ion-button (click)="aumentarCantidad()" [disabled]="cantidadLicencias >= 100" class="cantidad-btn" shape="round">
             <ion-icon name="add-outline"></ion-icon>
           </ion-button>
         </div>
@@ -119,7 +122,7 @@
 
     <!-- Datos del Cliente -->
     <div class="form-card" *ngIf="productoSeleccionado">
-      <h3>👤 3. Datos del Cliente</h3>
+      <h3>3. Datos del Cliente</h3>
 
       <div class="input-group">
         <ion-icon name="person-outline" class="input-icon"></ion-icon>
@@ -142,7 +145,7 @@
       </div>
     </div>
 
-    <!-- Botón Generar - MEJORADO Y MÁS VISIBLE -->
+    <!-- Botón Generar -->
     <div class="button-container">
       <ion-button 
         expand="block" 

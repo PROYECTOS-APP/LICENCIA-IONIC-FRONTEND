@@ -33,7 +33,7 @@ export class ResultadoPage implements OnInit {
     this.cargarDatos();
   }
 
-  cargarDatos() {
+ cargarDatos() {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as any;
     
@@ -43,11 +43,8 @@ export class ResultadoPage implements OnInit {
       this.licenciaData = state.licenciaData;
       console.log('Licencia cargada:', this.licenciaData);
     } else {
-      console.warn(' No hay datos de licencia');
-      // Si no hay datos, redirigir a home
-      setTimeout(() => {
-        this.router.navigateByUrl('/home', { replaceUrl: true });
-      }, 1000);
+      console.warn('No hay datos de licencia');
+  
     }
   }
 
@@ -173,7 +170,7 @@ export class ResultadoPage implements OnInit {
 
   async shareTikTok() {
     await this.copyAll();
-    await this.showToast('📱 Texto copiado. Pégalo en TikTok');
+    await this.showToast('Texto copiado. Pégalo en TikTok');
   }
 
   async shareNative() {
